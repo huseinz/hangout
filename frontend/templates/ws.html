@@ -1,0 +1,11 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pyxterm.js</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/hack.css') }}" >
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dark.css') }}" >
+<body class="hack dark container">
+	   {% include 'header.html' %}
+
+       <p id='text'></p>
+<script src="{{ url_for('static', filename='js/ws.js') }}"></script>
+</body>

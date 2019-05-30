@@ -1,0 +1,37 @@
+.clt, .clt ul, .clt li {
+     position: relative;
+     padding-left: 5px;
+}
+
+.dir {
+	color: #ff2e88;
+}
+.file {
+	color: white;
+}
+
+.clt ul {
+    list-style: none;
+    padding-left: 10px;
+}
+.clt li::before, .clt li::after {
+    content: "";
+    position: absolute;
+    left: -10px;
+}
+.clt li::before {
+    border-top: 1px solid #fff;
+    top: 9px;
+    width: 8px;
+    height: 0;
+}
+.clt li::after {
+    border-left: 1px solid #fff;
+    height: 100%;
+    width: 0px;
+    top: 2px;
+}
+.clt ul > li:last-child::after {
+    height: 8px;
+}
+

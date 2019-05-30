@@ -1,0 +1,471 @@
+:root {
+    --black: #0f1c1f;
+    --black-lighter: #1f3b42;
+    --black-darker: #141a1a;
+    --light: #fff;
+    --light-darker: #f9f9f9;
+    --grey: #666666;
+    --accent: #7eb5ac;
+    --accent-darker: #fff;
+    --greentext: #669f96;
+}
+input[type="checkbox" i] {
+    display: none;
+}
+body {
+    font-family: 'Open Sans Semibold' !important;
+    font-size: 16px;
+}
+
+/* html */
+body,
+html {
+    background: var(--light-darker);
+}
+body.is_index,
+body.is_thread {
+    background: var(--light-darker);
+    color: var(--grey);
+    margin: 3% 5%;
+}
+
+#header-bar {
+    background: var(--accent);
+}
+
+
+div.board {
+    background: var(--light);
+}
+div.thread {
+    padding: 3%;
+}
+#shortcuts {
+    margin-right: 2% !important;
+}
+:root:not(.werkTyme) .catalog-thread.watched .catalog-thumb,
+ :root:root.werkTyme .catalog-thread.watched:not(:hover),
+ :root:root.werkTyme:not(.catalog-hover-expand) .catalog-thread.watched,
+ :root.werkTyme.catalog-hover-expand .catalog-thread.watched > .catalog-container:hover > .catalog-post {
+    border-color: var(--light-darker);
+}
+:root.yotsuba-b.catalog-hover-expand .catalog-container:hover > .post {
+    padding: 10px !important;
+    width: auto;
+}
+:root.yotsuba .replies-quoting-you > a,
+ :root.yotsuba #watcher-link.replies-quoting-you {
+    color: var(--accent);
+}
+:root.yotsuba:not(.fixed) #header-bar,
+ :root.yotsuba #notifications,
+ :root.yotsuba #board-list a,
+ :root.yotsuba #shortcuts a,
+ :root.yotsuba-b #board-list a,
+ :root.yotsuba-b #shortcuts a {
+    color: var(--accent);
+    width: 100%;
+}
+:root.yotsuba #header-bar.dialog {
+    background-color: var(--light);
+}
+
+a.current {
+    color: var(--black) !important;
+}
+#watched-threads .watcher-link {
+    color: var(--light-darker);
+}
+:root.yotsuba.catalog-hover-expand .catalog-container:hover > .post {
+    padding: 10px !important;
+    width: auto;
+}
+:root.yotsuba-b .replies-quoting-you > a,
+ :root.yotsuba-b #watcher-link.replies-quoting-you,
+ :root.yotsuba .replies-quoting-you > a,
+ :root.yotsuba-b #watcher-link.replies-quoting-you {
+    color: var(--accent) !important;
+}
+div#header-bar.dialog.autohide {
+    background-color: var(--light)!important;
+    border: 0!important;
+    padding: 20px 0;
+}
+:root.centered-links #shortcuts {
+    width: auto!important;
+}
+:root.yotsuba.werkTyme .catalog-thread:not(:hover),
+ :root.yotsuba.werkTyme:not(.catalog-hover-expand) .catalog-thread,
+ :root.yotsuba.catalog-hover-expand .catalog-container:hover > .post,
+ :root.yotsuba.catalog-hover-expand .catalog-container:hover .catalog-reply {
+    border-color: var(--black-lighter);
+    padding: 10px;
+}
+body > div.boardBanner > div.boardTitle {
+    font-family: 'Roboto Slab', monospace!important;
+    font-size: 28px;
+    color: var(--light);
+    margin: 40px 0 10px!important;
+}
+#bannerCnt {
+    margin-bottom: 20px;
+    border-color: var(--black-lighter)!important;
+}
+:root.yotsuba-b .watch-thread-link,
+ :root.yotsuba .watch-thread-link {
+    background-image: url(https://x.eti.tf/YAxqZ.svg);
+    opacity: 1;
+}
+:root.yotsuba-b .watch-thread-link.watched,
+ :root.yotsuba .watch-thread-link.watched {
+    background-image: url(https://x.eti.tf/roU3b.svg);
+}
+.current {
+    font-weight: 400!important;
+    color: var(--accent)!important;
+}
+table.exif td {
+    color: var(--light)!important;
+    padding: 0 0 3px;
+}
+table.exif {
+    margin-top: 15px;
+}
+.qr-link-container + #togglePostFormLink,
+#shortcut-qr {
+    display: none;
+    content: none;
+}
+/* hover over a reply thing */
+div#qp.dialog {
+    border: 7px solid var(--light-darker);
+    background-color: var(--light);
+    padding: 5px 30px;
+}
+div.postContainer.opContainer {
+    padding: 20px;
+}
+div.post.op.qphl {
+    background: transparent;
+}
+#thread-watcher {
+    background-color: var(--black-lighter);
+    color: var(--accent-darker)!important;
+    border: 2px dashed var(--accent);
+    box-shadow: none;
+    padding: 10px;
+}
+#thread-watcher .move > .close {
+    right: 5px;
+    top: 5px;
+}
+div.reply {
+    background: transparent;
+    border: 0;
+    width: 100%;
+    padding: 10px 5px 10px 15px !important;
+    margin: 40px auto !important;
+}
+div.thread > div:nth-of-type(2) > div.reply {
+    padding-top: 40px !important;
+}
+a.watch-thread-link {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.dialog:not(#qr):not(#thread-watcher):not(#header-bar) {
+    box-shadow: none;
+}
+a.backlink {
+    margin: 0 2px 0 3px;
+    color: var(--light);
+}
+span.container {
+    line-height: 25px;
+}
+:root.yotsuba-b .dialog {
+    border: 0;
+    background: var(--light);
+}
+.reply > .file > .fileText {
+    text-decoration: none;
+    color: transparent !important;
+    width: auto;
+    transition: all .2s ease-in !important;
+    overflow: hidden;
+    height: 5px;
+    padding: 5px 0 0;
+}
+.reply > .file > .fileText:hover {
+    color: var(--grey)!important;
+    height: 30px;
+}
+.reply > .file > .fileText:hover > span.file-info > span.fnfull {
+    color: var(--grey)!important;
+}
+.fileText > span.file-info > a,
+a.sauce {
+    text-decoration: none;
+}
+.fileText:hover > span.file-info > a,
+.reply > .file > .fileText:hover > a.sauce {
+    color: var(--accent)!important;
+}
+:root.yotsuba-b .inline {
+    border-color: var(--light-darker);
+    padding: 10px;
+}
+a:hover {
+    color: var(--white-darker)!important;
+}
+#custom-board-list > a:hover {
+    color: var(--black-lighter) !important;
+}
+div.boardTitle {
+    font-family: "Open Sans", sans-serif!important;
+    letter-spacing: normal;
+    margin-bottom: 20px;
+}
+a.quotelink {
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--accent)!important;
+}
+#index-search {
+    background-color: var(--light) !important;
+    border: 0 !important;
+    color: var(--grey) !important;
+}
+.catalog-post.catalog-post {
+    background-color: var(--light)!important;
+}
+div.post div.postInfo span.subject {
+    color: var(--accent);
+}
+div.navLinks.json-index {
+    padding: 10px 0;
+    background: var(--light);
+}
+#index-last-refresh {
+    display: none!important;
+}
+:root.yotsuba .inline,
+ :root.yotsuba-b .inline {
+    background-color: var(--light);
+    border-color: var(--light-darker);
+    border-width: 7px;
+    padding: 10px;
+    margin: 30px;
+}
+div.postInfo.desktop > div.inline {
+    margin: 20px 0;
+}
+.qphl {
+    outline: 1px solid var(--accent);
+    background-color: var(--light);
+}
+:root:not(.keyboard-focus) a {
+    color: var(--accent);
+}
+:root.yotsuba .field:focus,
+ :root.yotsuba .field.focus {
+    border-color: var(--light);
+}
+:root.yotsuba-b.catalog-hover-expand .catalog-container:hover > .post {
+    background: var(--light);
+    border: 0;
+    box-shadow: 0 2px 9px 2px rgba(0, 0, 0, 0.45);
+}
+:root.highlight-you .quotesYou.opContainer,
+ :root.highlight-you .quotesYou > .reply {
+    border-left: 3px solid var(--light-darker);
+}
+.catalog-reply {
+    border: 0;
+}
+div.boardBanner {
+    color: var(--light);
+    display: none;
+}
+:root.yotsuba-b #header-bar,
+ :root.yotsuba-b #notifications {
+    color: var(--light);
+    background: var(--light);
+}
+blockquote > span.quote {
+    color: var(--greentext);
+}
+.reply:target,
+.reply.highlight {
+    background: var(--light-darker)!important;
+    border-width: 0;
+}
+select {
+    color: var(--black);
+    background-color: var(--light);
+    border-width: 0;
+}
+/* .fixed #header-bar {
+    padding-top: 8px;
+}
+*/
+#shortcut-expand-all,
+#shortcut-updater,
+#shortcut-stats,
+h1.qr-link-container,
+#blotter,
+hr,
+div.reply input,
+a.hide-reply-button,
+div.middlead.center,
+div.navLinks.navLinksBot.desktop,
+div.bottomCtrl.desktop,
+div#absbot,
+div.navLinks.desktop,
+span.brackets-wrap.bottomlink,
+span.brackets-wrap.indexlink,
+span.brackets-wrap.archlistlink,
+#shortcut-menu,
+#shortcut-index-refresh {
+    display: none;
+}
+span.abb {
+    color: var(--light-darker)!important;
+}
+a {
+    color: var(--black);
+}
+div.post div.postInfo span.postNum a,
+.fileText:hover a:hover,
+.post > .file:hover {
+    color: var(--grey)!important;
+}
+div.post div.postInfo span.postNum a:hover,
+.posteruid .hand:hover {
+    color: var(--grey)!important;
+}
+div.post div.postInfo span.nameBlock span.name {
+    color: var(--black)!important;
+}
+:root.yotsuba .dialog,
+ :root.yotsuba-b #header-bar.dialog {
+    background: var(--light);
+}
+.brackets-wrap::before,
+.brackets-wrap::after {
+    color: transparent;
+}
+.fileText a,
+.post > .file {
+    color: transparent!important;
+    transition: all .2s ease-in!important;
+}
+#custom-board-list {
+    color: var(--light);
+    cursor: default;
+}
+#custom-board-list > a:hover {
+    color: var(--black-lighter);
+}
+:root.yotsuba.werkTyme .catalog-thread:not(:hover),
+ :root.yotsuba.werkTyme:not(.catalog-hover-expand) .catalog-thread,
+ :root.yotsuba.catalog-hover-expand .catalog-container:hover > .post,
+ :root.yotsuba.catalog-hover-expand .catalog-container:hover .catalog-reply {
+    padding: 5px;
+}
+#qr {
+    padding: 5px;
+    background: var(--accent);
+}
+.field {
+    background: var(--light) !important;
+    border: 0;
+    padding: 5px;
+    color: var(--light) !important;
+}
+#file-n-submit > input,
+#qr-draw-button {
+    background: var(--light) !important;
+    color: var(--grey);
+    border: 0;
+    padding: 5px;
+}
+#fourchanx-settings {
+    background: var(--black) !important;
+    color: var(--light-darker);
+    border: 0;
+    padding: 0px;
+}
+:root.yotsuba #fourchanx-settings fieldset,
+ :root.yotsuba .section-main div::before {
+    color: var(--light);
+    border: 0;
+}
+:root.yotsuba .suboption-list > div:last-of-type {
+    background: var(--black) !important;
+}
+.section-container {
+    padding: 15px;
+}
+#fourchanx-settings > nav {
+    padding: 15px;
+    background-color: var(--black-lighter) !important;
+}
+#index-options {
+    display: none;
+}
+div.post div.postInfo span.nameBlock span.postertrip,
+.warning {
+    color: var(--greentext);
+}
+.top-box,
+.boxbar,
+#announce .boxbar,
+div.boxcontent,
+#announce,
+#fp-menu {
+    background: var(--black-lighter);
+    color: var(--light);
+}
+.top-box,
+div.boxcontent {
+    padding: 12px;
+}
+#ft {
+    display: none;
+}
+.box-outer,
+.c-thread img {
+    border: 0;
+}
+h3 {
+    text-decoration: none !important;
+}
+#boards a {
+    color: var(--light-darker);
+}
+#fp-menu {
+    border-color: var(--light-darker);
+}
+a.linkify,
+a.linkify.youtube {
+    color: var(--accent);
+}
+a:visited {
+    color: var(--accent-darker);
+}
+#qr > div {
+    color: var(--light);
+}
+.catalog-thumb {
+    box-shadow: none;
+}
+/* #index-search {
+    visibility: hidden;
+}
+*/
+
+.omittedposts,
+.abbr {
+    color: var(--light);
+}

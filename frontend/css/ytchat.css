@@ -1,0 +1,13 @@
+#sendbtn{
+	float: right;
+}
+
+#message{
+	padding-top: 0px;
+}
+
+#messagelabel{
+	width: auto;
+	height: auto;
+	line-height: normal;
+}

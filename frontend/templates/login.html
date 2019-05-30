@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hack.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dark.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WELCOME</title>
+</head>
+<body class="hack dark container">
+<a href="/" class="" id="banner">
+  <div class="card">
+    <header class="card-header"><b>Gummy Addiction Help Center</b></header>
+    <div class="card-content">
+      <div class="inner" style="text-align:center">This is a gummy free zone!</div>
+    </div>
+  </div>
+</a>
+
+<form id="lgn" class="form" autocomplete="off" action="{{ url_for('userlogin') }}" method="POST">
+  <fieldset class="form-group">
+    <label id="un" for="username">Username:</label>
+    <input name="username" id="username" type="text" placeholder="" class="form-control">
+  </fieldset>
+  <fieldset class="form-group">
+    <label id="pw" for="password">Password:</label>
+    <input name="password" id="password" type="password" placeholder="" class="form-control">
+  </fieldset>
+  <div class="form-actions">
+    <button id="login_btn" class="btn btn-success btn-ghost btn-block">LOGIN</button>
+  </div>
+    <button id="new_btn" type="button" class="btn btn-ghost btn-block">NEW USER</button>
+  <div id="newuser_div" style="display: none">
+  <fieldset class="form-group">
+    <label for="username">New username:</label>
+    <input name="username" id="new_un" type="text" placeholder="" class="in_box form-control">
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="password">New password:</label>
+    <input id="new_pw_a" name="new_pw_a" type="password" placeholder="" class="in_box form-control">
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="password">Confirm password:</label>
+    <input id="new_pw_b" name="new_pw_b" type="password" placeholder="" class="in_box form-control">
+  </fieldset>
+  <div class="form-actions">
+    <button id="reg_btn" class="btn btn-success btn-ghost btn-block">REGISTER</button>
+  </div>
+  </div>
+</form>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+</body>

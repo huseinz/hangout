@@ -1,0 +1,57 @@
+{
+  "name": "hangout",
+  "version": "1.0.0",
+  "description": "packages:",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "hack": "^0.8.1",
+    "helmet": "^3.18.0",
+    "html": "^1.0.0",
+    "nunjucks": "^3.2.0",
+    "react-dom": "^16.8.6",
+    "react-youtube": "^7.9.0",
+    "socket.io-client": "^2.2.0",
+    "xterm": "^3.12.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --open --mode development",
+    "build": "webpack --mode production --display-modules",
+    "dev": "webpack --mode development --display-modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huseinz/hangout.git"
+  },
+  "author": "Zubir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/huseinz/hangout/issues"
+  },
+  "homepage": "https://github.com/huseinz/hangout#readme",
+  "keywords": [],
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  }
+}
