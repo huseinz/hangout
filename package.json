@@ -17,9 +17,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --mode development",
+    "start": "nodemon server.js",
     "build": "webpack --mode production --display-modules",
-    "dev": "webpack --mode development --display-modules; nodemon app.js"
+    "dev": "webpack --mode development --display-modules; nodemon server.js"
   },
   "repository": {
     "type": "git",
