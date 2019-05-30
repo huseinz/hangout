@@ -1,16 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const server = require('http').Server(app);
-const port = 3000;
+const server = require('http').createServer(app);
+const port = 5000;
 const helmet = require('helmet');
 const nunjucks = require('nunjucks');
+const io = require('socket.io').listen(server);
 
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('./routes/main'));
-app.use('/frontend', express.static('frontend'));
+
+app.use(express.static('frontend/static'));
 
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
@@ -36,7 +38,9 @@ server.listen(port, (err) => {
 	console.log('Node Endpoints working :)');
 });
 
-module.exports = {
-    server: server,
-    app: app,
-};
+
+module.exports.server = server;
+module.exports.io = io;
+
+//somehow get sockets.js to be loaded
+require('./routes/sockets');
