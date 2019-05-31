@@ -29,4 +29,10 @@ router.get('/cv', (err, res) => {
     res.render('cv.html');
 });
 
+
+router.get('/cv', (err, res) => {
+
+	res.render('cv.html');
+});
+
 module.exports = router;

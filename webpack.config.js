@@ -1,9 +1,12 @@
 const path = require('path');
 module.exports = {
   mode: 'development',
-  entry: path.resolve(__dirname, 'frontend') + "/es6/util.jsx",
+  entry: {
+    util: './frontend/jsx/util.jsx',
+    cv: './frontend/jsx/cv.jsx'
+  },
   output:{
-    filename: 'util.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'frontend') + "/static/js/"
   },
   resolve: {

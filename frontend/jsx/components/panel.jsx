@@ -57,7 +57,7 @@ class PanelContainer extends React.Component{
 class Panel extends React.Component{
 
     state = {
-        title: '',
+        title: 'default',
     };
 
 
