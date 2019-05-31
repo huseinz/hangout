@@ -1,19 +1,32 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 router.get('/', (err, res) => {
-	res.status(200);
-	res.render('hello.html');
-});
-
-router.get('/hack-me', (err, res) =>{
-	res.render('ws.html');
+    res.status(200);
+    res.render('hello.html');
 });
 
 router.post('/', (err, res) => {
-	res.status(200);
-	res.send('working');
-	res.end();
+    res.status(200);
+    res.send('working');
+    res.end();
+});
+
+router.get('/login', (err, res) => {
+    res.render('login.html');
+});
+
+router.get('/hack-me', (err, res) =>{
+    res.render('ws.html');
+});
+
+router.get('/ls', (err, res) => {
+    let filetree = require('../core/ls').filetree;
+    res.render('ls.html', { files: filetree(process.cwd())});
+});
+
+router.get('/cv', (err, res) => {
+    res.render('cv.html');
 });
 
 module.exports = router;

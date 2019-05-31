@@ -6,5 +6,5 @@ fuck flask
 
 `npm install`
 `npm run build`
-`nodemon server.js`
+`node server.js`
 

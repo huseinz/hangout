@@ -4,15 +4,37 @@
 <body class="hack dark container">
 
  {% include 'header.html' %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/hack.css') }}" >
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/dark.css') }}" >
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/ls.css') }}" >
+  <link rel="stylesheet" href="/css/hack.css" >
+  <link rel="stylesheet" href="/css/dark.css" >
+  <link rel="stylesheet" href="/css/ls.css" >
 
 <div class="card">
 <header class="card-header">files</header>
 <div class="card-content">
  <div class="inner tree">
-	 {{ files }}
+  {% macro listDir(f) %}
+   {% if f.isDir %}
+    <li class="clt dir" onclick="dirClicked(this)">
+     {{f.filename}}
+    <ul class="clt" style="display: none;">
+     {% for subf in f.files %}
+     {{ listDir(subf) }}
+     {% endfor %}
+    </ul>
+    </li>
+   {% else %}
+    <a href="{{ f.filename }}">
+        <li class="clt file" onclick="fileClicked(this)">{{ f.filename }}</li>
+    </a>
+   {% endif %}
+  {% endmacro %}
+
+  <ul class="clt">
+  {% for f in files %}
+  {{ listDir(f) }}
+  {% endfor %}
+  </ul>
+
  </div>
 </div>
 </div>
