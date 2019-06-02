@@ -20,7 +20,7 @@
   </div>
 </a>
 
-<form id="lgn" class="form" autocomplete="off" action="{{ url_for('userlogin') }}" method="POST">
+<form id="lgn" class="form" autocomplete="off" action="/login" method="POST">
   <fieldset class="form-group">
     <label id="un" for="username">Username:</label>
     <input name="username" id="username" type="text" placeholder="" class="form-control">
@@ -51,7 +51,6 @@
   </div>
   </div>
 </form>
-<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
+<script type="text/javascript" src="/js/login.js"></script>
 
 </body>

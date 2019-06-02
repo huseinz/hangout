@@ -16,23 +16,21 @@ router.get('/login', (err, res) => {
     res.render('login.html');
 });
 
+router.post('/login', (err, res) => {
+    //do something with login info
+});
+
 router.get('/hack-me', (err, res) =>{
     res.render('ws.html');
 });
 
 router.get('/ls', (err, res) => {
-    let filetree = require('../core/ls').filetree;
+    const filetree = require('../core/ls').filetree;
     res.render('ls.html', { files: filetree(process.cwd())});
 });
 
-router.get('/cv', (err, res) => {
-    res.render('cv.html');
-});
-
-
-router.get('/cv', (err, res) => {
-
-	res.render('cv.html');
+router.get('/pixelsorter', (err, res) => {
+    res.render('pixelsorter.html');
 });
 
 module.exports = router;
