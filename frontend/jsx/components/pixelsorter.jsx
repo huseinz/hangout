@@ -66,7 +66,6 @@ class PixelSorter extends React.Component{
         let row = img.pixels[y];
         for(let i = 0; i < row.length; i++){
             if(filter(row[i])) {
-                console.log("this ran");
                 let newrow = row.slice(0, i).concat(row.slice(i).sort(comparison));
                 img.pixels[y] = newrow;
                 break;
@@ -74,7 +73,7 @@ class PixelSorter extends React.Component{
         }
     }
     compare(a, b) {
-            let suma = a[0] - this.state.red_slider_val + a[1] - this.state.green_slider_val + b[2] - this.state.blue_slider_val;
+            let suma = a[0] - this.state.red_slider_val + a[1] - this.state.green_slider_val + a[2] - this.state.blue_slider_val;
             let sumb = b[0] + b[1] + b[2];
             return sumb - suma;
     }
@@ -101,15 +100,15 @@ class PixelSorter extends React.Component{
                 <p style={redStyle}>red</p>
                 <input  type="range" min="0" max='255' value={this.state.red_slider_val}
                         ref={this.red_slider} onChange={this.onChange_red_slider}
-                        style={redStyle}/>
+                        style={redStyle} onMouseUp={this.do_sort}/>
                 <p style={greenStyle}>green</p>
                 <input  type="range" min="0" max='255' value={this.state.green_slider_val}
                         ref={this.green_slider} onChange={this.onChange_green_slider}
-                        style={greenStyle}/>
+                        style={greenStyle} onMouseUp={this.do_sort}/>
                 <p style={blueStyle}>blue</p>
                 <input  type="range" min="0" max='255' value={this.state.blue_slider_val}
                         ref={this.blue_slider} onChange={this.onChange_blue_slider}
-                        style={blueStyle}/>
+                        style={blueStyle} onMouseUp={this.do_sort}/>
                 <img    ref="image" src={this.props.defaultimg} style={{display: "none"}} />
             </div>
         )
