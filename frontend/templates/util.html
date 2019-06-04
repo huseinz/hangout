@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/hack.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dark.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/util.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ytchat.css') }}">
+<link rel="stylesheet" href="/css/hack.css">
+<link rel="stylesheet" href="/css/dark.css">
+<link rel="stylesheet" href="/css/login.css">
+<link rel="stylesheet" href="/css/util.css">
 <link rel="stylesheet" href="https://unpkg.com/xterm@3.6.0/dist/xterm.css" />
 <html lang="en">
 <head>
@@ -18,9 +18,6 @@
 
 <p>Launch new utility:</p>
 <select id="new_util_select">
-	{% for u in sysutils %}
-		<option value="{{ u }}">{{ u }}</option>
-	{% endfor %}
 </select>
 
 
@@ -33,7 +30,7 @@
 <script src="https://unpkg.com/xterm@3.6.0/dist/addons/search/search.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
 
-<script src="{{ url_for('static', filename='js/util.js') }}" ></script>
+<script src="/js/util.js" ></script>
 
 <style>
 

@@ -23,6 +23,9 @@ router.post('/login', (err, res) => {
 router.get('/hack-me', (err, res) =>{
     res.render('ws.html');
 });
+router.get('/util', (err, res) =>{
+    res.render('util.html');
+});
 
 router.get('/ls', (err, res) => {
     const filetree = require('../core/ls').filetree;

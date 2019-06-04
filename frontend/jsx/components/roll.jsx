@@ -30,7 +30,7 @@ class Roll extends React.Component{
                 <input value={this.state.ub} onChange={this.upd_ub} type="number" size="7" className="form-control rn_ub"/>
                 <div><input value={this.state.roll} type="number" size="7" className="form-control rn_res"/></div>
                 <img className='icon rn_sub' onClick={this.rollButton}
-                     src="static/img/chansey.gif"/>
+                     src="/img/chansey.gif"/>
             </div>
         )
     }

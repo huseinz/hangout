@@ -1,6 +1,7 @@
 import React from "react";
 
 import Panel from './panel';
+import Roll from "./roll";
 
 class PanelContainer extends React.Component{
 
@@ -20,11 +21,11 @@ class PanelContainer extends React.Component{
     }
 
     new_util(){
-        var select = document.getElementById("new_util_select").value
+      /*  var select = document.getElementById("new_util_select").value
         var utils = this.state.children;
         utils.push(select);
         this.setState({children:utils});
-        fetch('/user/util/add')
+        fetch('/user/util/add')*/
     }
 
     componentWillMount(){
@@ -40,14 +41,14 @@ class PanelContainer extends React.Component{
     render(){
         return(
             <div>
-                <button className="btn btn-primary" onClick={this.new_util}>Add</button>
+                <button className="btn btn-primary" onClick={this.new_util}>this does nothing</button>
                 <div id="panelbox">
-                    <Panel tag="MyYT"/>
                     {this.state.children.map(ctag =>
                         <Panel win_id={ctag.win_id}>
                             React.createElement(eval({ctag.name});
                         </Panel>)
                     }
+                    <Panel><Roll/></Panel>
                 </div>
             </div>
         )
