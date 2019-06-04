@@ -3,7 +3,7 @@ module.exports = {
   mode: 'development',
   entry: {
     util: './frontend/jsx/util.jsx',
-    pixelsorter: './frontend/jsx/pixelsorter.jsx'
+    pixelsorter: ['./frontend/jsx/pixelsorter.jsx']
   },
   output:{
     filename: '[name].js',

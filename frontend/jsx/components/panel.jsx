@@ -1,9 +1,9 @@
 import React from 'react';
 
-import PxTerm from './term.jsx'
+/*import PxTerm from './term.jsx'
 import Chat from './chat.jsx'
 import Roll from './roll.jsx'
-import MyYT from './youtube.jsx'
+import MyYT from './youtube.jsx'*/
 
 
 class Panel extends React.Component{
