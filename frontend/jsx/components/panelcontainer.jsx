@@ -10,7 +10,7 @@ class PanelContainer extends React.Component{
     };
 
     update_panels(){
-        fetch('/user/util', {credentials: 'same-origin'})
+      /*  fetch('/user/util', {credentials: 'same-origin'})
             .then((response) => {
                     response.json().then((utils) => {
                             this.setState({children:JSON.parse(utils.utils)});
@@ -18,6 +18,7 @@ class PanelContainer extends React.Component{
                     );
                 }
             );
+           */
     }
 
     new_util(){
@@ -43,11 +44,7 @@ class PanelContainer extends React.Component{
             <div>
                 <button className="btn btn-primary" onClick={this.new_util}>this does nothing</button>
                 <div id="panelbox">
-                    {this.state.children.map(ctag =>
-                        <Panel win_id={ctag.win_id}>
-                            React.createElement(eval({ctag.name});
-                        </Panel>)
-                    }
+                    {this.props.children}
                     <Panel><Roll/></Panel>
                 </div>
             </div>
@@ -56,3 +53,8 @@ class PanelContainer extends React.Component{
 }
 
 export default PanelContainer;
+/*{this.state.children.map(ctag =>
+    <Panel win_id={ctag.win_id}>
+        React.createElement(eval({ctag.name});
+    </Panel>)
+}*/

@@ -1,4 +1,6 @@
 import React from 'react';
+import FileBrowser from "./filebrowser";
+import Panel from "./panel";
 
 const img_utils = require('../../../core/Image');
 
@@ -16,13 +18,17 @@ class PixelSorter extends React.Component{
         red_slider_val: 50,
         green_slider_val: 10,
         blue_slider_val: 10,
+        img_path:'',
     };
 
     constructor(props){
-        super(props)
+        super(props);
         this.props.set_title('PixelSorter');
+        this.state.img_path = this.props.defaultimg;
         this.do_sort = this.do_sort.bind(this);
         this.compare = this.compare.bind(this);
+        this.load_image = this.load_image.bind(this);
+        this.update_img_path = this.update_img_path.bind(this);
         this.onChange_red_slider = this.onChange_red_slider.bind(this);
         this.onChange_green_slider = this.onChange_green_slider.bind(this);
         this.onChange_blue_slider = this.onChange_blue_slider.bind(this);
@@ -31,25 +37,37 @@ class PixelSorter extends React.Component{
         this.blue_slider = React.createRef();
     }
 
+    update_img_path(path){
+        console.log("this ran", path);
+        this.setState({img_path:"/img/" + path});
+        const img = this.refs.image;
+        img.src = "/img/" + path;
+    }
+
     componentDidMount() {
         const canvas = this.refs.canvas;
-        canvas.style.width ='50%';
-        canvas.style.height='50%';
+        //canvas.style.width ='50%';
+        //canvas.style.height='50%';
         const ctx = canvas.getContext("2d");
         const img = this.refs.image;
 
-        img.onload = () => {
-            this.setState({img_loaded:true, ctx:ctx,
-                                 img_width:img.width, img_height:img.height,
-                                 w:canvas.width, h:canvas.height});
-            ctx.drawImage(img, 0, 0, img.width, img.height,
-                                    0, 0, canvas.width, canvas.height);
-            let imgdata = ctx.getImageData(0,0,canvas.width, canvas.height);
-            this.setState({imgdata:imgdata})
-            this.setState({img: new img_utils.Image(imgdata, canvas.width, canvas.height)});
-            this.setState({orig_img: new img_utils.Image(imgdata, canvas.width, canvas.height)});
-            ctx.putImageData(this.state.img.getImageData(), 0,0);
-        }
+        img.onload = this.load_image;
+    }
+
+    load_image(){
+        const canvas = this.refs.canvas;
+        const ctx = canvas.getContext("2d");
+        const img = this.refs.image;
+        this.setState({img_loaded:true, ctx:ctx,
+                          img_width:img.width, img_height:img.height,
+                          w:canvas.width, h:canvas.height});
+        ctx.drawImage(img, 0, 0, img.width, img.height,
+        0, 0, canvas.width, canvas.height);
+        let imgdata = ctx.getImageData(0,0,canvas.width, canvas.height);
+        this.setState({imgdata:imgdata})
+        this.setState({img: new img_utils.Image(imgdata, canvas.width, canvas.height)});
+        this.setState({orig_img: new img_utils.Image(imgdata, canvas.width, canvas.height)});
+        ctx.putImageData(this.state.img.getImageData(), 0,0);
     }
 
 
@@ -95,8 +113,11 @@ class PixelSorter extends React.Component{
         const blueStyle = {color: 'blue',};
         return(
             <div>
-                <canvas ref="canvas" width={640} height={425} />
-                <button ref="draw" onClick={this.do_sort} style={buttonStyle}>Draw</button>
+                <Panel title="art"><canvas ref="canvas" width={640} height={425} />
+                </Panel>
+
+                <Panel><FileBrowser callback={this.update_img_path}/></Panel>
+                <Panel title="controls">
                 <p style={redStyle}>red</p>
                 <input  type="range" min="0" max='255' value={this.state.red_slider_val}
                         ref={this.red_slider} onChange={this.onChange_red_slider}
@@ -109,7 +130,9 @@ class PixelSorter extends React.Component{
                 <input  type="range" min="0" max='255' value={this.state.blue_slider_val}
                         ref={this.blue_slider} onChange={this.onChange_blue_slider}
                         style={blueStyle} onMouseUp={this.do_sort}/>
-                <img    ref="image" src={this.props.defaultimg} style={{display: "none"}} />
+                <button ref="draw" onClick={this.do_sort} style={buttonStyle}>Draw</button>
+                    <img    ref="image" src={this.state.img_path} style={{display: "none"}} />
+                    </Panel>
             </div>
         )
     }

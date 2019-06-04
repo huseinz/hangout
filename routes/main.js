@@ -27,9 +27,13 @@ router.get('/util', (err, res) =>{
     res.render('util.html');
 });
 
-router.get('/ls', (err, res) => {
+router.get('/ls_page', (err, res) => {
     const filetree = require('../core/ls').filetree;
     res.render('ls.html', { files: filetree(process.cwd())});
+});
+router.get('/ls', (err, res) => {
+    const filetree = require('../core/ls').filetree;
+    res.json(filetree(process.cwd()));
 });
 
 router.get('/pixelsorter', (err, res) => {
