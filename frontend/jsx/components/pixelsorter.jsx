@@ -13,7 +13,7 @@ class PixelSorter extends React.Component{
         w: 0,
         h: 0,
         ctx: null,
-        red_slider_val: 10,
+        red_slider_val: 50,
         green_slider_val: 10,
         blue_slider_val: 10,
     };
@@ -33,8 +33,8 @@ class PixelSorter extends React.Component{
 
     componentDidMount() {
         const canvas = this.refs.canvas;
-        canvas.style.width ='100%';
-        canvas.style.height='100%';
+        canvas.style.width ='50%';
+        canvas.style.height='50%';
         const ctx = canvas.getContext("2d");
         const img = this.refs.image;
 
@@ -51,11 +51,7 @@ class PixelSorter extends React.Component{
             ctx.putImageData(this.state.img.getImageData(), 0,0);
         }
     }
-    compare(a, b) {
-            let suma = a[0] - this.state.red_slider_val + a[1] - this.state.green_slider_val + b[2] - this.state.blue_slider_val;
-            let sumb = b[0] + b[1] + b[2];
-            return sumb - suma;
-    }
+
 
     onChange_red_slider(e) {
         this.setState({red_slider_val: e.target.value});
@@ -66,16 +62,29 @@ class PixelSorter extends React.Component{
     onChange_blue_slider(e){
         this.setState({blue_slider_val:e.target.value});
     }
-
-    sort_after(filter, comparison){
-
+    sort_after(img, y, comparison, filter ){
+        let row = img.pixels[y];
+        for(let i = 0; i < row.length; i++){
+            if(filter(row[i])) {
+                console.log("this ran");
+                let newrow = row.slice(0, i).concat(row.slice(i).sort(comparison));
+                img.pixels[y] = newrow;
+                break;
+            }
+        }
     }
-
+    compare(a, b) {
+            let suma = a[0] - this.state.red_slider_val + a[1] - this.state.green_slider_val + b[2] - this.state.blue_slider_val;
+            let sumb = b[0] + b[1] + b[2];
+            return sumb - suma;
+    }
     do_sort(){
         let img = new img_utils.Image(this.state.imgdata, this.state.w, this.state.h);
 
         for(let y = 0; y < this.state.h; y++){
-            img.pixels[y].sort(this.compare);
+            //img.pixels[y].sort(this.compare);
+            this.sort_after(img, y, this.compare,(pix) => {return pix[0] > this.state.red_slider_val
+                                                && pix[1] < this.state.red_slider_val && pix[2] < this.state.red_slider_val });
         }
         this.state.ctx.putImageData(img.getImageData(), 0,0);
     }
