@@ -1,20 +1,15 @@
 class Image{
     constructor(img, img_w, img_h){
-        this.pixels = [];
+        this.pixels = new Array(img_h);
         this.imgdata = img.data;
         this.w = img_w;
         this.h = img_h;
         let i = 0;
+        let imgd = img.data;
         for( let y = 0; y < img_h; y++ ) {
-            this.pixels.push([]);
+            this.pixels[y] = Array.from(Array(img_w), () => new Uint8ClampedArray(4));
             for( let x = 0; x < img_w; x++ ) {
-                this.pixels[y].push(
-                    new Uint8ClampedArray([
-                    img.data[i],
-                    img.data[i + 1],
-                    img.data[i + 2],
-                    img.data[i + 3]
-                    ]));
+                this.pixels[y][x].set([imgd[i],imgd[i+1],imgd[i+2],imgd[i+3]]);
                 i += 4;
             }
         }
@@ -52,11 +47,17 @@ class Image{
         let rawpix = new Uint8ClampedArray(this.w * this.h * 4);
         let i = 0;
         for(let y = 0; y < this.h; y++){
+            //rawpix.set(this.pixels[y].flat(), y * this.w * 4);
             for(let x = 0; x < this.w; x++){
-                rawpix[i]= this.pixels[y][x][0];
+                try{
+                    rawpix.set(this.pixels[y][x], i);}
+                catch(err){
+                    console.log(y,x);
+                }
+                /*rawpix[i]= this.pixels[y][x][0];
                 rawpix[i+1]= this.pixels[y][x][1];
                 rawpix[i+2]= this.pixels[y][x][2];
-                rawpix[i+3]= this.pixels[y][x][3];
+                rawpix[i+3]= this.pixels[y][x][3];*/
                 i += 4;
             }
         }
