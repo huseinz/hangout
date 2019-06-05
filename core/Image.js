@@ -13,21 +13,16 @@ class Image{
                 i += 4;
             }
         }
-        this.getImageData = this.getImageData.bind(this);
-        this.swapPixel = this.swapPixel.bind(this);
-        this.getColumn = this.getColumn.bind(this);
-        this.getRow = this.getRow.bind(this);
-        this.setRow = this.setRow.bind(this);
     }
 
-    swapPixel(x1, y1, x2, y2){
+    swapPixel = (x1, y1, x2, y2) => {
         const tmp = this.pixels[y1][x1];
         this.pixels[y1][x1] = this.pixels[y2][x2];
         this.pixels[y2][x1] = tmp;
         console.log("tmp:", tmp, "1:", this.pixels[y1][x1], "2:", this.pixels[y2][x2]);
     }
 
-    getColumn(x){
+    getColumn = (x) =>{
         let rawpix = [];
         let buf = this.imgdata;
         for(let i = 0, k = x; i < this.h * 4, k < buf.length; i++, k += this.w * 4)
@@ -35,29 +30,20 @@ class Image{
         return rawpix;
     }
 
-    getRow(y){
+    getRow = (y) =>{
         return this.pixels[y];
     }
 
-    setRow(arr, y){
+    setRow = (arr, y) =>{
         this.pixels[y] = arr;
     }
 
-    getImageData(){
+    getImageData = () =>{
         let rawpix = new Uint8ClampedArray(this.w * this.h * 4);
         let i = 0;
         for(let y = 0; y < this.h; y++){
-            //rawpix.set(this.pixels[y].flat(), y * this.w * 4);
             for(let x = 0; x < this.w; x++){
-                try{
-                    rawpix.set(this.pixels[y][x], i);}
-                catch(err){
-                    console.log(y,x);
-                }
-                /*rawpix[i]= this.pixels[y][x][0];
-                rawpix[i+1]= this.pixels[y][x][1];
-                rawpix[i+2]= this.pixels[y][x][2];
-                rawpix[i+3]= this.pixels[y][x][3];*/
+                rawpix.set(this.pixels[y][x], i);
                 i += 4;
             }
         }

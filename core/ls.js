@@ -3,11 +3,7 @@ let fs = require('fs');
 let path = require('path');
 
 function filetree(cwd){
-    let files = glob.sync("**/*.jpg", {"cwd":cwd, "realpath": true, "ignore":"node_modules"});
-
-    if (files[0] === "[*]"){
-        return [];
-    }
+    let files = glob.sync("*", {"cwd":cwd, "realpath": true, "ignore":"node_modules"});
 
     // list of { filename, isDir, files }
     let tree = [];

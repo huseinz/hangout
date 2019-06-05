@@ -31,18 +31,13 @@ class PixelSorter extends React.Component{
 
     update_img_path = (path) => {
         console.log("this ran", path);
-        this.setState({img_path:"/img/" + path});
+        this.setState({img_path:path});
         const img = this.refs.image;
-        img.src = "/img/" + path;
+        img.src = this.state.img_path;
     }
 
     componentDidMount() {
-        const canvas = this.refs.canvas;
-        //canvas.style.width ='50%';
-        //canvas.style.height='50%';
-        const ctx = canvas.getContext("2d");
         const img = this.refs.image;
-
         img.onload = this.load_image;
     }
 
