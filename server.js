@@ -6,7 +6,7 @@ const port = 5000;
 const helmet = require('helmet');
 const nunjucks = require('nunjucks');
 
-app.use(cors())
+app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));

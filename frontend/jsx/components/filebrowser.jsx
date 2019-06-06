@@ -25,16 +25,16 @@ class FileBrowser extends React.Component{
     }
     componentWillMount() {
         this.load();
+        setInterval(this.load, 5000);
     }
 
     onFileClick = (e) => {
         console.log(e.target.id);
-        this.props.callback(e.target.id);
+        this.props.callback("/img/"+e.target.id);
     }
 
     generateTree = (f) =>{
           let tree = <div></div>;
-            console.log(f.fullpath);
           if(f.isDir){
               tree = <li className="clt dir" key={f.fullpath} id={f.filename} onClick={this.onFileClick}>
                   {f.filename}
@@ -51,21 +51,23 @@ class FileBrowser extends React.Component{
     }
 
     getBase64 = (file, callback) => {
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-            callback(reader.result);
-        };
-        reader.onerror = function (error) {
-            console.log('Error: ', error);
-        };
+        if(file){
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                callback(reader.result);
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+            };
+
+        }
     }
     onUpload = (e) =>{
         e.preventDefault();
 
-        this.getBase64(this.fileInput.current.files[0],(b64) =>
-            {
-                this.props.callback(b64);
+        this.getBase64(this.fileInput.current.files[0],(b64) => {
+            if (b64) {
 
                 //b64 should be readable by <img>
                 fetch('/upload', {
@@ -73,20 +75,25 @@ class FileBrowser extends React.Component{
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({b64: b64})
-                }).then(() => this.load())
-                    .catch((err) => {console.log(err.text())});
-            } );
+                    body: JSON.stringify({b64: b64,
+                                        name :this.fileInput.current.files[0].name})
+                }).then(() => {this.load()})
+                    .catch((err) => {
+                        console.log(err.text())
+                    });
+            }
+        });
     }
     render(){
+        //method="POST" action='/upload'
       return(
           <div className="inner tree">
               <ul className="clt">
               {this.state.ftree}
           </ul>
-              <form onSubmit={this.onUpload} encType="multipart/form-data">
-              <input type='file' name='userimg' ref={this.fileInput}/>
-                  <button type="submit">upload</button>
+              <form onSubmit={this.onUpload} className="form-group" encType="multipart/form-data">
+              <input type='file' name='userimg' className="form-control" ref={this.fileInput}/>
+                  <button className='btn btn-primary btn-ghost' type="submit">upload</button>
               </form>
           </div>
       )

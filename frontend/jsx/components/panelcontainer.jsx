@@ -1,12 +1,9 @@
 import React from "react";
 
-import Panel from './panel';
-import Roll from "./roll";
 
 class PanelContainer extends React.Component{
 
     state = {
-        children: []
     };
 
     update_panels(){
@@ -31,7 +28,7 @@ class PanelContainer extends React.Component{
 
     componentWillMount(){
         this.update_panels();
-        console.log(this.state.children);
+        console.log(this.props.children);
     }
     constructor(props){
         super(props);
@@ -40,14 +37,15 @@ class PanelContainer extends React.Component{
     }
 
     render(){
+        const defaultStyle = {
+            display: 'flex',
+            flexWrap: 'wrap',
+            flexGap: '10px',
+        };
         return(
-            <div>
-                <button className="btn btn-primary" onClick={this.new_util}>this does nothing</button>
-                <div id="panelbox">
+                <div id="panelbox" style={defaultStyle }>
                     {this.props.children}
-                    <Panel><Roll/></Panel>
                 </div>
-            </div>
         )
     }
 }

@@ -33,7 +33,7 @@ class Panel extends React.Component{
             return React.cloneElement(child, {});
         });
         return(
-            <div className="card panel">
+            <div className="card panel" style={this.props.style || {}}>
                 <header className="card-header">{this.state.title}</header>
                 <div className="card-content">
                     <div className="inner">
