@@ -3,8 +3,6 @@ import FileBrowser from "./filebrowser";
 import Panel from "./panel";
 import PanelContainer from './panelcontainer';
 
-import uint32 from 'uint32';
-
 const img_utils = require('../../../core/Image');
 
 class PixelSorter extends React.Component{
@@ -27,7 +25,7 @@ class PixelSorter extends React.Component{
         img_path:'',
         isPersistent: false,
         isVertical: false,
-        isContiguous: false,
+        isContiguous: true,
         isReverse: false,
     };
 
@@ -125,7 +123,6 @@ class PixelSorter extends React.Component{
     }
     handleVertical = (e) =>{
         this.setState({isVertical: e.target.checked});
-        this.do_sort();
     }
     handleContiguous = (e) =>{
         this.setState({isContiguous: e.target.checked},
@@ -146,8 +143,8 @@ class PixelSorter extends React.Component{
             }
         }
     }
-    sort_between = (img, y, comparison, filter ) => {
-        let row = img.pixels[y];
+    sort_between = (row, comparison, filter ) => {
+        //let row = img.pixels[y];
        // img.pixels[y] = row.sort(comparison);
         for(let i = 0; i < row.length; i++){
             if(filter(row[i])) {
@@ -163,21 +160,27 @@ class PixelSorter extends React.Component{
                 let rowsort = row.slice(start, end).sort(comparison);
                 rowsort = this.adj_hue(rowsort);
                 let rowend = row.slice(end);
-                img.pixels[y].set(rowbeg, 0);
-                img.pixels[y].set(rowsort, start);
-                img.pixels[y].set(rowend, end);
+                row.set(rowbeg, 0);
+                row.set(rowsort, start);
+                row.set(rowend, end);
 
                 i = end;
             }
         }
+        return row;
     }
 
     adj_hue = (row) => {
+        let s = this.state;
         let res = new Uint8ClampedArray(row.buffer);
+        let hue = new Uint32Array(
+            [s.red_slider_val,
+                s.green_slider_val,
+                s.blue_slider_val]);
         for(let i = 0; i < res.length; i += 4) {
-            res[i] += this.state.red_slider_val;
-            res[i + 1] += this.state.green_slider_val;
-            res[i + 2] += this.state.blue_slider_val;
+            res[i] += hue[0];
+            res[i + 1] += hue[1];
+            res[i + 2] += hue[2];
         }
         return new Uint32Array(res.buffer);
     }
@@ -213,7 +216,6 @@ class PixelSorter extends React.Component{
             e.preventDefault();
         if(!this.state.img_loaded)
             return;
-        console.log(this.state.isContiguous);
         /*
         if(!this.bg_running) {
             let img = new img_utils.Image(this.state.imgdata, this.state.w, this.state.h);
@@ -235,8 +237,16 @@ class PixelSorter extends React.Component{
             img.setColumn(img.getColumn(x).sort(this.compare), x);
         }
         */
-        for(let y = 0; y < this.state.h; y++){
-            this.sort_between(img, y, this.compare,this.filter);
+        if(this.state.isVertical){
+            for(let x = 0; x < this.state.w; x++){
+                let newcol = this.sort_between(img.getColumn(x), this.compare, this.filter);
+                img.setColumn(newcol, x);
+            }
+        }
+        else {
+            for (let y = 0; y < this.state.h; y++) {
+                this.sort_between(img.pixels[y], this.compare, this.filter);
+            }
         }
         this.setState({img:img});
         //this.sort_between(img, 20, this.compare,this.filter);
@@ -274,9 +284,6 @@ class PixelSorter extends React.Component{
                 <Panel style={panelStyle} title="art">
                     <canvas style={canvStyle} ref="canvas" width={this.state.img_width} height={this.state.img_height} />
                 </Panel>
-
-                <Panel><FileBrowser callback={this.update_img_path}/></Panel>
-
             <Panel style={panelStyle} title="controls">
                 <form onSubmit={this.do_sort} className="form-group">
                 <Panel title="hue adjust">
@@ -456,6 +463,8 @@ class PixelSorter extends React.Component{
                     style={imgStyle}/>
                 </form>
             </Panel>
+
+            <Panel><FileBrowser callback={this.update_img_path}/></Panel>
             </PanelContainer>
         )
     }

@@ -2,7 +2,7 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   entry: {
-    util: './frontend/jsx/util.jsx',
+    util: ['babel-polyfill', './frontend/jsx/util.jsx'],
     pixelsorter: ['babel-polyfill', './frontend/jsx/pixelsorter.jsx']
   },
   output:{

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const fs = require('fs');
-const sharp = require('sharp');
 const Jimp = require('jimp');
 
 
