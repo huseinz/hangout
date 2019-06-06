@@ -25,6 +25,10 @@ class PixelSorter extends React.Component{
         green_f_slider_val: 0,
         blue_f_slider_val: 0,
         img_path:'',
+        isPersistent: false,
+        isVertical: false,
+        isContiguous: false,
+        isReverse: false,
     };
 
     constructor(props){
@@ -36,8 +40,8 @@ class PixelSorter extends React.Component{
     }
 
     update_img_path = (path) => {
-        console.log("this ran", encodeURI(path));
-        this.setState({img_path:encodeURI(path)});
+        this.setState({img_loaded: false, img_path:encodeURI(path)});
+        this.load_image();
         //const img = this.refs.image;
         //img.src = this.state.img_path;
     }
@@ -62,8 +66,10 @@ class PixelSorter extends React.Component{
         0, 0, canvas.width, canvas.height);
         let imgdata = ctx.getImageData(0,0,canvas.width, canvas.height);
         this.setState({imgdata:imgdata})
-        this.setState({img: new img_utils.Image(imgdata)});
-        ctx.putImageData(this.state.img.getImageData(), 0,0);
+        this.setState({img: new img_utils.Image(imgdata)},
+            () => {
+                ctx.putImageData(this.state.img.getImageData(), 0, 0);
+            });
     }
 
     reset = () => {
@@ -75,7 +81,21 @@ class PixelSorter extends React.Component{
             green_f_slider_val: 0,
             blue_f_slider_val: 0,
         });
-        this.load_image();
+        this.update_img_path(this.state.img_path);
+    }
+    hue_reset = () => {
+        this.setState({
+            red_slider_val: 0,
+            green_slider_val: 0,
+            blue_slider_val: 0,
+        });
+    }
+    filter_reset = () => {
+        this.setState({
+            red_f_slider_val: 0,
+            green_f_slider_val: 0,
+            blue_f_slider_val: 0,
+        });
     }
 
     onChange_red_slider = (e) => {
@@ -95,14 +115,33 @@ class PixelSorter extends React.Component{
     }
     onChange_blue_f_slider = (e) => {
         this.setState({blue_f_slider_val:e.target.value});
+    }
+    handleDraw = (e) => {
+        setTimeout(this.do_sort(e), 1000);
+        this.setState({});
+    }
+    handlePersistent = (e) =>{
+        this.setState({isPersistent: e.target.checked});
+    }
+    handleVertical = (e) =>{
+        this.setState({isVertical: e.target.checked});
         this.do_sort();
     }
+    handleContiguous = (e) =>{
+        this.setState({isContiguous: e.target.checked},
+            () => {this.do_sort()});
+    }
+    handleReverse = (e) =>{
+        this.setState({isReverse: e.target.checked},
+            () => {this.do_sort()});
+    }
+
+
     sort_after = (img, y, comparison, filter ) => {
         let row = img.pixels[y];
         for (let i = 0; i < row.length; i++) {
             if (filter(row[i])) {
-                img.pixels[y] = row.slice(0, i).concat(row.slice(i).sort(comparison));
-                //row.splice(i, newrow.length, newrow);
+                img.pixels[y].set(row.slice(i).sort(comparison), i);
                 break;
             }
         }
@@ -115,30 +154,36 @@ class PixelSorter extends React.Component{
                 let start = i;
                 let end = i;
                 for(; i < row.length; i++){
-                    //if(i % 1000 === 0)
-                      //`  console.log( this.state.red_f_slider_val);
                     if(filter(row[i]))
                         end = i;
-                    else
+                    else if(this.state.isContiguous)
                         break;
                 }
                 let rowbeg = row.slice(0, start);
                 let rowsort = row.slice(start, end).sort(comparison);
+                rowsort = this.adj_hue(rowsort);
                 let rowend = row.slice(end);
                 img.pixels[y].set(rowbeg, 0);
                 img.pixels[y].set(rowsort, start);
                 img.pixels[y].set(rowend, end);
+
                 i = end;
-                //break;
             }
         }
     }
+
+    adj_hue = (row) => {
+        let res = new Uint8ClampedArray(row.buffer);
+        for(let i = 0; i < res.length; i += 4) {
+            res[i] += this.state.red_slider_val;
+            res[i + 1] += this.state.green_slider_val;
+            res[i + 2] += this.state.blue_slider_val;
+        }
+        return new Uint32Array(res.buffer);
+    }
     compare = (a, b) => {
-            let s = this.state;
-            let sliderval = 0;
-                sliderval += s.red_slider_val << 16;
-                sliderval += s.green_slider_val << 8;
-                sliderval += s.blue_slider_val;
+            if(this.state.isReverse)
+                return a - b;
             return b - a ;
     }
 
@@ -163,14 +208,12 @@ class PixelSorter extends React.Component{
         }
     }
 
-    handleDraw = (e) => {
-        setTimeout(this.do_sort(e), 1000);
-        this.setState({});
-    }
     do_sort = (e) => {
         if(e)
             e.preventDefault();
-
+        if(!this.state.img_loaded)
+            return;
+        console.log(this.state.isContiguous);
         /*
         if(!this.bg_running) {
             let img = new img_utils.Image(this.state.imgdata, this.state.w, this.state.h);
@@ -184,7 +227,10 @@ class PixelSorter extends React.Component{
                 }
             }, 0);
         }*/
-        let img = new img_utils.Image(this.state.imgdata);
+        let img = this.state.img;
+
+        if(!this.state.isPersistent)
+            img = new img_utils.Image(this.state.imgdata);
         /*for(let x = 0; x < this.state.w; x++){
             img.setColumn(img.getColumn(x).sort(this.compare), x);
         }
@@ -192,10 +238,9 @@ class PixelSorter extends React.Component{
         for(let y = 0; y < this.state.h; y++){
             this.sort_between(img, y, this.compare,this.filter);
         }
+        this.setState({img:img});
         //this.sort_between(img, 20, this.compare,this.filter);
 
-
-        console.log("this ran");
         this.state.ctx.putImageData(img.getImageData(), 0,0);
     }
 
@@ -220,6 +265,10 @@ class PixelSorter extends React.Component{
             maxWidth: '100vw',
             padding: '1px',
         };
+        const cbAlign = {
+            float: 'right',
+            marginTop: '5px',
+        };
         return(
             <PanelContainer>
                 <Panel style={panelStyle} title="art">
@@ -230,71 +279,181 @@ class PixelSorter extends React.Component{
 
             <Panel style={panelStyle} title="controls">
                 <form onSubmit={this.do_sort} className="form-group">
-                <Panel title="weight">
-                <p style={redStyle}>{this.state.red_slider_val}</p>
+                <Panel title="hue adjust">
                 <input  type="range"
                         min="-255"
                         max='255'
+                        className='form-control'
                         value={this.state.red_slider_val}
                         onChange={this.onChange_red_slider}
                         style={redStyle}
                         onMouseUp={this.do_sort}
                 />
+                <input  type="number"
+                        min="-255"
+                        max='255'
+                        className='form-control'
+                        value={this.state.red_slider_val}
+                        onChange={this.onChange_red_slider}
+                        style={redStyle}
+                /><br/>
 
-                <p style={greenStyle}>{this.state.green_slider_val}</p>
                 <input  type="range"
                         min="-255"
                         max='255'
+                        className='form-control'
                         value={this.state.green_slider_val}
                         onChange={this.onChange_green_slider}
                         style={greenStyle}
                         onMouseUp={this.do_sort}
                 />
+                <input  type="number"
+                        min="-255"
+                        max='255'
+                        className='form-control'
+                        value={this.state.green_slider_val}
+                        onChange={this.onChange_green_slider}
+                        style={greenStyle}
+                /><br/>
 
-                <p style={blueStyle}>{this.state.blue_slider_val}</p>
                 <input  type="range"
                         min="-255"
                         max='255'
+                        className='form-control'
                         value={this.state.blue_slider_val}
                         onChange={this.onChange_blue_slider}
                         style={blueStyle}
                         onMouseUp={this.do_sort}
                 />
-                </Panel>
+                <input  type="number"
+                        min="-255"
+                        max='255'
+                        className='form-control'
+                        value={this.state.blue_slider_val}
+                        onChange={this.onChange_blue_slider}
+                        style={blueStyle}
+                /><br/>
+                <button
+                    ref="hue_reset"
+                    className="btn btn-primary btn-ghost"
+                    type="button"
+                    onClick={this.hue_reset}>reset</button>
+                </Panel >
                 <Panel title="filter">
-                <p style={redStyle}>{this.state.red_f_slider_val}</p>
                 <input  type="range"
                         min="-255"
                         max='255'
-                        value={this.state.red__f_slider_val}
+                        className='form-control'
+                        value={this.state.red_f_slider_val}
                         onChange={this.onChange_red_f_slider}
                         style={redStyle}
                         onMouseUp={this.do_sort}
                 />
+                <input  type="number"
+                        min="-255"
+                        max='255'
+                        className='form-control'
+                        value={this.state.red_f_slider_val}
+                        onChange={this.onChange_red_f_slider}
+                        style={redStyle}
+                /><br/>
 
-                <p style={greenStyle}>{this.state.green_f_slider_val}</p>
                 <input  type="range"
                         min="-255"
                         max='255'
+                        className='form-control'
                         value={this.state.green_f_slider_val}
                         onChange={this.onChange_green_f_slider}
                         style={greenStyle}
                         onMouseUp={this.do_sort}
                 />
+                 <input  type="number"
+                        min="-255"
+                        max='255'
+                         className='form-control'
+                        value={this.state.green_f_slider_val}
+                        onChange={this.onChange_green_f_slider}
+                        style={greenStyle}
+                /><br/>
 
-                <p style={blueStyle}>{this.state.blue_f_slider_val}</p>
                 <input  type="range"
                         min="-255"
                         max='255'
+                        className='form-control'
                         value={this.state.blue_f_slider_val}
                         onChange={this.onChange_blue_f_slider}
                         style={blueStyle}
-                        onMouseUp={this.handleDraw}
+                        onMouseUp={this.do_sort}
                 />
+                <input  type="number"
+                        min="-255"
+                        max='255'
+                        className='form-control'
+                        value={this.state.blue_f_slider_val}
+                        onChange={this.onChange_blue_f_slider}
+                        style={blueStyle}
+                        onMouseUp={this.do_sort}
+                /><br/>
+                <button
+                    ref="filter_reset"
+                    className="btn btn-primary btn-ghost"
+                    type="button"
+                    onClick={this.filter_reset}>reset</button>
+
                 </Panel>
-                <button ref="draw" className="btn btn-primary btn-ghost" type="submit">sort</button>
-                <button ref="reset" className="btn btn-primary btn-ghost" onClick={this.reset}>reset</button>
-                <img    ref="image" src={this.state.img_path} style={imgStyle}/>
+                    <Panel title='settings'>
+                <label>vertical
+                    <input
+                        type='checkbox'
+                        style={cbAlign}
+                        className='form-control'
+                        checked={this.state.isVertical}
+                        onChange={this.handleVertical}
+                    />
+                </label>
+                    <br/>
+                <label>persistent
+                    <input
+                        type='checkbox'
+                        style={cbAlign}
+                        className='form-control'
+                        checked={this.state.isPersistent}
+                        onChange={this.handlePersistent}
+                    />
+                </label><br/>
+                <label>contiguous
+                    <input
+                        type='checkbox'
+                        style={cbAlign}
+                        className='form-control'
+                        checked={this.state.isContiguous}
+                        onChange={this.handleContiguous}
+                    />
+                </label><br/>
+                    <label>reverse sort
+                        <input
+                            type='checkbox'
+                            style={cbAlign}
+                            className='form-control'
+                            checked={this.state.isReverse}
+                            onChange={this.handleReverse}
+                        />
+                    </label>
+                    </Panel>
+                <button
+                    ref="draw"
+                    className="btn btn-primary btn-ghost"
+                    type="submit">sort</button>
+                <button
+                    ref="reset"
+                    className="btn btn-primary btn-ghost"
+                    type="button"
+                    onClick={this.reset}>reset</button>
+
+                <img
+                    ref="image"
+                    src={this.state.img_path}
+                    style={imgStyle}/>
                 </form>
             </Panel>
             </PanelContainer>

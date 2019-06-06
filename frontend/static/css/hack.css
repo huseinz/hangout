@@ -372,7 +372,7 @@ table tbody td:first-child {
     border: none;
     border-bottom: 1px solid #ccc;
     /**padding: .5rem 0;**/
-    width: 20rem;
+    /*width: 20rem;*/
     background-color: transparent;
 }
 .form-control:focus {

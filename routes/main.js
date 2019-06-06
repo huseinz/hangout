@@ -45,12 +45,12 @@ router.post('/upload', (req, res) => {
     let b64 = req.body.b64;
     b64 = b64.split(';base64,').pop();
 
-    const tmpfn = "./frontend/static/img/tmp-" + req.body.name;
+    const tmpfn = "/tmp/" + req.body.name;
     const outfn = './frontend/static/img/'+ req.body.name;
 
-  //  fs.writeFile(tmpfn, b64, {encoding: 'base64'}, function(err) {
-  //      console.log('File created');
-  //  });
+    fs.writeFile(tmpfn, b64, {encoding: 'base64'}, function(err) {
+        console.log('File created');
+    });
     Jimp.read(tmpfn)
         .then(lenna => {
             return lenna
@@ -61,6 +61,9 @@ router.post('/upload', (req, res) => {
         .catch(err => {
             console.error(err);
         });
+    fs.unlink(tmpfn, (err) =>{
+        if (err) console.log(err);
+    });
   //  let transform = sharp(tmpfn).resize(800,600,{fit:'inside'}).toFile("wat.png");
     //stream.pipe(transform);
 //    transform.resize(800,600,{fit:'inside'});
