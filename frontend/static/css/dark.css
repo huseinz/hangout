@@ -152,6 +152,8 @@ iframe {
 .dark .btn.btn-ghost.btn-primary:focus, .dark .btn.btn-ghost.btn-primary:hover {
     border-color: #64b5f6;
     color: #64b5f6;
+    border-color: #FF8C00;
+    color: #FF8C00;
 }
 .dark .btn.btn-ghost.btn-success:focus, .dark .btn.btn-ghost.btn-success:hover {
     border-color: #81c784;

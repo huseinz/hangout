@@ -3,11 +3,7 @@ let fs = require('fs');
 let path = require('path');
 
 function filetree(cwd){
-    let files = glob.sync("*", {"cwd":cwd, "realpath": true});
-
-    if (files === "[*]"){
-        return [];
-    }
+    let files = glob.sync("*", {"cwd":cwd, "realpath": true, "ignore":"node_modules"});
 
     // list of { filename, isDir, files }
     let tree = [];
@@ -16,9 +12,9 @@ function filetree(cwd){
         if(fs.lstatSync(file).isDirectory()){
             diritems = filetree(file);
             isDir = true;
-            tree.push({filename: path.basename(file), isDir:true, files: diritems});
+            tree.push({filename: path.basename(file), fullpath:file,  isDir:true, files: diritems});
         }
-        else tree.push({filename: path.basename(file), files: diritems});
+        else tree.push({filename: path.basename(file), fullpath:file, files: diritems});
     }
 
     return tree;

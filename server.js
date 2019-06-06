@@ -1,29 +1,31 @@
 const express = require('express');
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const app = express();
-const server = require('http').createServer(app);
 const port = 5000;
 const helmet = require('helmet');
 const nunjucks = require('nunjucks');
-const io = require('socket.io').listen(server);
 
+app.use(cors());
 app.use(helmet());
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(require('./routes/main'));
 
 app.use(express.static('frontend/static'));
 
 app.use((req, res, next) => {
-	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5000');
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept');
 	next();
 });
+const server = require('http').createServer(app);
+const io = require('socket.io').listen(server);
 
 nunjucks.configure('frontend/templates', {autoescape: true, express: app});
 app.set('view engine', 'html');
 
+app.use(require('./routes/main'))
 
 //pre-flight requests
 app.options('*', function(req, res) {

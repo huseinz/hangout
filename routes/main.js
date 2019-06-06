@@ -1,5 +1,10 @@
-let express = require('express');
-let router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const fs = require('fs');
+const sharp = require('sharp');
+const Jimp = require('jimp');
+
 
 router.get('/', (err, res) => {
     res.status(200);
@@ -27,9 +32,40 @@ router.get('/util', (err, res) =>{
     res.render('util.html');
 });
 
-router.get('/ls', (err, res) => {
+router.get('/ls_page', (err, res) => {
     const filetree = require('../core/ls').filetree;
     res.render('ls.html', { files: filetree(process.cwd())});
+});
+router.get('/ls', (err, res) => {
+    const filetree = require('../core/ls').filetree;
+    res.json(filetree(process.cwd()+"/frontend/static/img"));
+});
+
+router.post('/upload', (req, res) => {
+    let b64 = req.body.b64;
+    b64 = b64.split(';base64,').pop();
+
+    const tmpfn = "./frontend/static/img/tmp-" + req.body.name;
+    const outfn = './frontend/static/img/'+ req.body.name;
+
+  //  fs.writeFile(tmpfn, b64, {encoding: 'base64'}, function(err) {
+  //      console.log('File created');
+  //  });
+    Jimp.read(tmpfn)
+        .then(lenna => {
+            return lenna
+                .scaleToFit(800, 600) // resize
+                .quality(99) // set JPEG quality
+                .write(outfn); // save
+        })
+        .catch(err => {
+            console.error(err);
+        });
+  //  let transform = sharp(tmpfn).resize(800,600,{fit:'inside'}).toFile("wat.png");
+    //stream.pipe(transform);
+//    transform.resize(800,600,{fit:'inside'});
+  //  transform.toBuffer().toFile(outfn+".png").then((e)=>{console.log(e)});
+    res.sendStatus(200);
 });
 
 router.get('/pixelsorter', (err, res) => {

@@ -16,6 +16,7 @@ class Panel extends React.Component{
     constructor(props){
         super(props);
         this.set_title = this.set_title.bind(this);
+        this.state.title = this.props.title;
     }
 
     set_title(newtitle){
@@ -24,12 +25,15 @@ class Panel extends React.Component{
 
     render(){
         const children = React.Children.map(this.props.children, child => {
-            return React.cloneElement(child, {
-                set_title: this.set_title
-            });
+            if(child.type instanceof Function) {
+                return React.cloneElement(child, {
+                    set_title: this.set_title
+                });
+            }
+            return React.cloneElement(child, {});
         });
         return(
-            <div className="card panel">
+            <div className="card panel" style={this.props.style || {}}>
                 <header className="card-header">{this.state.title}</header>
                 <div className="card-content">
                     <div className="inner">
