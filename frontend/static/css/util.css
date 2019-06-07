@@ -6,38 +6,21 @@ input::-webkit-inner-spin-button {
 	}
 
 .panel {
+
 	width: auto;
 	float: left;
 	flex-basis: 1;
-	flex-grow: 1;
+	/*flex-grow: 1;*/
+}
+
+b {
+	color: #ff9800;
 }
 
 .panel * {
-	margin: 1px;
+	margin: 2px;
 }
 
-.rn_lb { 
-	width: 100%; 
-	max-width: 7ch;
-	text-align: right;
-}
-
-
-.rn_ub { 
-	width: 100%; 
-	max-width: 7ch;
-
-}
-
-.rn_res {
-	max-width: 7ch;
-	text-align: center;
-	font-size: 18px;
-	border-bottom: 1px solid green;
-}
-.rn_sub {
-	padding-top: 10px;
-}
 
 .cntr {
 	display: block;
@@ -62,59 +45,15 @@ input::-webkit-inner-spin-button {
 	column-count: 3;
 }
 
-#panelbox{
+.panelbox{
 	display: flex;
 	flex-wrap: wrap;
-	flex-gap: 3px;
 }
 
 /*#panelbox > .card:first-child{
 	margin-bottom: 10px;
 	margin-right: 10px;
 }*/
-
-.randominteger{
-	grid-column-start: 1;
-	grid-column-end: 2;
-	grid-row: 1;
-	flex-grow: 1;
-	flex-basis: 1;
-}
-#sevendice{
-	grid-column-start: 2;
-	grid-column-end: 3;
-	grid-row: 1;
-	flex-basis: 1;
-	flex-grow: 1;
-}
-#moon{
-	grid-column-start: 1;
-	grid-column-end: 3;
-	grid-row: 2 / 4;
-	flex-basis: 2;
-	flex-grow: 1;
-}
-#moonemb{
-	grid-column-start: 1;
-	grid-column-end: 3;
-	grid-row: 2 / 4;
-	width: 100%;
-	height: 370px;
-}
-#weather{
-	grid-column-start: 3;
-	grid-column-end: 4;
-	grid-row: 1;
-	flex-basis: 1;
-	flex-shrink: 1;
-	flex-grow: 1;
-}
-#weatheremb{
-	width: 100%;
-}
-#sevendice .form-control{
-	float: right;
-}
 
 .term {
 	flex-basis: 2;

@@ -1,37 +1,31 @@
-.clt, .clt ul, .clt li {
-     position: relative;
-     padding-left: 5px;
-}
-
-.dir {
-	color: #ff2e88;
-}
-.file {
-	color: white;
-}
-
-.clt ul {
+ul.clt, ul.clt ul {
     list-style: none;
-    padding-left: 10px;
+    margin: 0;
+    padding: 0;
 }
-.clt li::before, .clt li::after {
-    content: "";
-    position: absolute;
-    left: -10px;
+ul.clt ul {
+    margin-left: 10px;
 }
-.clt li::before {
-    border-top: 1px solid #fff;
-    top: 9px;
-    width: 8px;
-    height: 0;
-}
-.clt li::after {
-    border-left: 1px solid #fff;
-    height: 100%;
-    width: 0px;
-    top: 2px;
-}
-.clt ul > li:last-child::after {
-    height: 8px;
-}
+ul.clt li {
+    margin: 0;
+    padding: 0 7px;
+    line-height: 20px;
+    border-left:1px solid #ff9800;
 
+}
+ul.clt li:last-child {
+    border-left:none;
+}
+ul.clt li:before {
+    position:relative;
+    top:-0.3em;
+    height:1em;
+    width:12px;
+    border-bottom:1px solid #ff9800;
+    content:"";
+    display:inline-block;
+    left:-7px;
+}
+ul.clt li:last-child:before {
+    border-left:1px solid #ff9800;
+}

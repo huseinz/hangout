@@ -17,6 +17,7 @@ class Panel extends React.Component{
         super(props);
         this.set_title = this.set_title.bind(this);
         this.state.title = this.props.title;
+        this.state.className = this.props.className;
     }
 
     set_title(newtitle){
@@ -33,7 +34,7 @@ class Panel extends React.Component{
             return React.cloneElement(child, {});
         });
         return(
-            <div className="card panel" style={this.props.style || {}}>
+            <div className={"card panel flex-item" + " " + this.state.className} style={this.props.style || {}}>
                 <header className="card-header">{this.state.title}</header>
                 <div className="card-content">
                     <div className="inner">
