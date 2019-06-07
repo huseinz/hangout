@@ -484,6 +484,7 @@ class PixelSorter extends React.Component{
 
             </Panel>
             <Panel><FileBrowser callback={this.update_img_path}/></Panel>
+
         </PanelContainer>
         )
     }
