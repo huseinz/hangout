@@ -63,10 +63,6 @@ router.post('/upload', (req, res) => {
     fs.unlink(tmpfn, (err) =>{
         if (err) console.log(err);
     });
-  //  let transform = sharp(tmpfn).resize(800,600,{fit:'inside'}).toFile("wat.png");
-    //stream.pipe(transform);
-//    transform.resize(800,600,{fit:'inside'});
-  //  transform.toBuffer().toFile(outfn+".png").then((e)=>{console.log(e)});
     res.sendStatus(200);
 });
 

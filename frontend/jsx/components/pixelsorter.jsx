@@ -29,11 +29,12 @@ class PixelSorter extends React.Component{
         isReverse: false,
         isFilterEnabled: true,
         isHue: false,
+        isAutoUpdate: false,
     };
 
     constructor(props){
         super(props);
-        this.props.set_title('PixelSorter');
+        this.props.set_title('PixelSorter つ ◕_◕ ༽つ');
         this.state.img_path = this.props.defaultimg;
         this.subsort = this.subsort.bind(this);
         this.bg_running = false;
@@ -42,6 +43,11 @@ class PixelSorter extends React.Component{
     componentDidMount() {
         const img = this.refs.image;
         img.onload = this.load_image;
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.state.isAutoUpdate)
+            this.do_sort();
     }
 
     reset = () => {
@@ -71,10 +77,10 @@ class PixelSorter extends React.Component{
     }
 
     onChange_slider = (e) => {
-        this.setState({[e.target.getAttribute('stateParam')]:e.target.value});
+        this.setState({[e.target.getAttribute('stateparam')]:e.target.value});
     }
     onChange_checkbox = (e) => {
-        this.setState({[e.target.getAttribute('stateParam')]:e.target.checked});
+        this.setState({[e.target.getAttribute('stateparam')]:e.target.checked});
     }
 
     update_img_path = (path) => {
@@ -232,30 +238,32 @@ class PixelSorter extends React.Component{
             marginTop: '5px',
         };
         const sliderStyle = {
-            width: '20rem',
-        };
+
+        }
         return(
-            <PanelContainer>
+        <PanelContainer>
                 <Panel style={panelStyle} title="art">
                     <canvas style={canvStyle} ref="canvas" width={this.state.img_width} height={this.state.img_height} />
                 </Panel>
-            <Panel style={panelStyle} title="controls">
-                <form onSubmit={this.do_sort} className="form-group">
+            <Panel><FileBrowser callback={this.update_img_path}/></Panel>
+
+            <Panel  title="controls">
+
                 <Panel title="hue adjust">
+                    <form onSubmit={this.do_sort} className="form-group">
                 <input  type="range"
                         min="-255"
                         max='255'
-                        stateParam='r_val'
+                        stateparam='r_val'
                         className='form-control'
                         value={this.state.r_val}
                         onChange={this.onChange_slider}
                         style={sliderStyle}
-                        onMouseUp={this.do_sort}
                 />
                 <input  type="number"
                         min="-255"
                         max='255'
-                        stateParam='r_val'
+                        stateparam='r_val'
                         className='form-control'
                         value={this.state.r_val}
                         onChange={this.onChange_slider}
@@ -265,17 +273,16 @@ class PixelSorter extends React.Component{
                 <input  type="range"
                         min="-255"
                         max='255'
-                        stateParam='g_val'
+                        stateparam='g_val'
                         className='form-control'
                         value={this.state.g_val}
                         onChange={this.onChange_slider}
                         style={sliderStyle}
-                        onMouseUp={this.do_sort}
                 />
                 <input  type="number"
                         min="-255"
                         max='255'
-                        stateParam='g_val'
+                        stateparam='g_val'
                         className='form-control'
                         value={this.state.g_val}
                         onChange={this.onChange_slider}
@@ -285,17 +292,16 @@ class PixelSorter extends React.Component{
                 <input  type="range"
                         min="-255"
                         max='255'
-                        stateParam='b_val'
+                        stateparam='b_val'
                         className='form-control'
                         value={this.state.b_val}
                         onChange={this.onChange_slider}
                         style={sliderStyle}
-                        onMouseUp={this.do_sort}
                 />
                 <input  type="number"
                         min="-255"
                         max='255'
-                        stateParam='b_val'
+                        stateparam='b_val'
                         className='form-control'
                         value={this.state.b_val}
                         onChange={this.onChange_slider}
@@ -305,7 +311,7 @@ class PixelSorter extends React.Component{
                 <input
                     type='checkbox'
                     style={cbAlign}
-                    stateParam="isHue"
+                    stateparam="isHue"
                     className='form-control'
                     checked={this.state.isHue}
                     onChange={this.onChange_checkbox}
@@ -316,22 +322,23 @@ class PixelSorter extends React.Component{
                     className="btn btn-primary btn-ghost"
                     type="button"
                     onClick={this.hue_reset}>reset</button>
+                    </form>
                 </Panel >
                 <Panel title="threshold">
+                    <form onSubmit={this.do_sort} className="form-group">
                 <input  type="range"
                         min="0"
                         max='256'
-                        stateParam='r_f_val'
+                        stateparam='r_f_val'
                         className='form-control'
                         value={this.state.r_f_val}
                         onChange={this.onChange_slider}
                         style={sliderStyle}
-                        onMouseUp={this.do_sort}
                 />
                 <input  type="number"
                         min="0"
                         max='256'
-                        stateParam='r_f_val'
+                        stateparam='r_f_val'
                         className='form-control'
                         value={this.state.r_f_val}
                         onChange={this.onChange_slider}
@@ -341,17 +348,16 @@ class PixelSorter extends React.Component{
                 <input  type="range"
                         min="0"
                         max='256'
-                        stateParam='g_f_val'
+                        stateparam='g_f_val'
                         className='form-control'
                         value={this.state.g_f_val}
                         onChange={this.onChange_slider}
                         style={sliderStyle}
-                        onMouseUp={this.do_sort}
                 />
                  <input type="number"
                         min="0"
                         max='256'
-                        stateParam='g_f_val'
+                        stateparam='g_f_val'
                         className='form-control'
                         value={this.state.g_f_val}
                         onChange={this.onChange_slider}
@@ -361,22 +367,20 @@ class PixelSorter extends React.Component{
                 <input  type="range"
                         min="0"
                         max='256'
-                        stateParam='b_f_val'
+                        stateparam='b_f_val'
                         className='form-control'
                         value={this.state.b_f_val}
                         onChange={this.onChange_slider}
                         style={sliderStyle}
-                        onMouseUp={this.do_sort}
                 />
                 <input  type="number"
                         min="0"
                         max='256'
-                        stateParam='b_f_val'
+                        stateparam='b_f_val'
                         className='form-control'
                         value={this.state.b_f_val}
                         onChange={this.onChange_slider}
                         style={blueStyle}
-                        onMouseUp={this.do_sort}
                 /><br/>
                 <button
                     ref="filter_reset"
@@ -388,56 +392,69 @@ class PixelSorter extends React.Component{
                         type='checkbox'
                         style={cbAlign}
                         className='form-control'
-                        stateParam="isFilterEnabled"
+                        stateparam="isFilterEnabled"
                         checked={this.state.isFilterEnabled}
                         onChange={this.onChange_checkbox}
                     />
                 </label>
+                    </form>
                 </Panel>
-                    <Panel title='settings'>
+                    <Panel title='settings' className='settingsPanel'>
+                        <form onSubmit={this.do_sort} className="form-group">
                 <label>vertical
                     <input
                         type='checkbox'
                         style={cbAlign}
-                        stateParam="isVertical"
+                        stateparam="isVertical"
                         className='form-control'
                         checked={this.state.isVertical}
                         onChange={this.onChange_checkbox}
                     />
                 </label>
-                    <br/>
+
                 <label>persistent
                     <input
                         type='checkbox'
                         style={cbAlign}
-                        stateParam="isPersistent"
+                        stateparam="isPersistent"
                         className='form-control'
                         checked={this.state.isPersistent}
                         onChange={this.onChange_checkbox}
                     />
-                </label><br/>
+                </label>
                 <label>contiguous
                     <input
                         type='checkbox'
                         style={cbAlign}
-                        stateParam="isContiguous"
+                        stateparam="isContiguous"
                         className='form-control'
                         checked={this.state.isContiguous}
                         onChange={this.onChange_checkbox}
                     />
-                </label><br/>
+                </label>
                 <label>reverse sort
                     <input
                         type='checkbox'
                         style={cbAlign}
-                        stateParam="isReverse"
+                        stateparam="isReverse"
                         className='form-control'
                         checked={this.state.isReverse}
                         onChange={this.onChange_checkbox}
                     />
                 </label>
+                <label>auto update?
+                    <input
+                        type='checkbox'
+                        style={cbAlign}
+                        stateparam="isAutoUpdate"
+                        className='form-control'
+                        checked={this.state.isAutoUpdate}
+                        onChange={this.onChange_checkbox}
+                    />
+                </label></form>
 
                     </Panel>
+                    <form onSubmit={this.do_sort} className="form-group">
                 <button
                     ref="draw"
                     className="btn btn-primary btn-ghost"
@@ -453,10 +470,22 @@ class PixelSorter extends React.Component{
                     src={this.state.img_path}
                     style={imgStyle}/>
                 </form>
+                <Panel title="About">
+                    <p> Hit Enter to generate new image without clicking <b>sort</b></p>
+                    <ul className="clt">
+                        <li><b>Hue</b>: adjusts hue of pixels chosen for sorting</li>
+                        <li><b>Threshold</b>: determines which pixels are sorted</li>
+                        <li><b>Persistent</b>: applies sort to previous result</li>
+                        <li><b>Contiguous</b>: will only sort contiguous chunks of pixels<br/>
+                            that are within the threshold.Default behavior sorts<br/>
+                            from the first and last pixel within a row that are<br/>
+                            within the threshold</li>
+                    </ul>
+                </Panel>
+
             </Panel>
 
-            <Panel><FileBrowser callback={this.update_img_path}/></Panel>
-            </PanelContainer>
+        </PanelContainer>
         )
     }
 }

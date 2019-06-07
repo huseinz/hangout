@@ -1,0 +1,32 @@
+@import 'ls.css';
+
+.panelbox{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.panel {
+    display: block;
+    width: auto;
+    float: left;
+   /* flex-basis: 1;*/
+   /* flex-grow: 1;*/
+}
+
+.panel * {
+    margin: 2px;
+}
+
+.settingsPanel form{
+    display:flex;
+    flex-direction: column;
+}
+
+.controlPanel inner{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+b {
+    color: #ff9800;
+}

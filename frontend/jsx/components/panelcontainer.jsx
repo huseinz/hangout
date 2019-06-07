@@ -43,7 +43,7 @@ class PanelContainer extends React.Component{
             flexGap: '10px',
         };
         return(
-                <div id="panelbox" style={defaultStyle }>
+                <div className="panelbox" >
                     {this.props.children}
                 </div>
         )
