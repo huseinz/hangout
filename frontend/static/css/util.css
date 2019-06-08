@@ -1,53 +1,50 @@
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-	    /* display: none; <- Crashes Chrome on hover */
-	    -webkit-appearance: none;
-	        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-	}
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
 
 .panel {
-
-	width: auto;
-	float: left;
-	flex-basis: 1;
-	/*flex-grow: 1;*/
+  width: auto;
+  float: left;
+  flex-basis: 1;
+  /*flex-grow: 1;*/
 }
 
 b {
-	color: #ff9800;
+  color: #ff9800;
 }
 
 .panel * {
-	margin: 2px;
+  margin: 2px;
 }
-
 
 .cntr {
-	display: block;
-	position: relative;
-	margin: 0 auto;
-	text-align: center;
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.small .form-control{ 
-	max-width: 3ch;
-	height: 100%;
-	float: right;
+.small .form-control {
+  max-width: 3ch;
+  height: 100%;
+  float: right;
 }
-
 
 .inner {
-	padding: 5px;
-	position: relative;
+  padding: 5px;
+  position: relative;
 }
 
-.cols{
-	column-count: 3;
+.cols {
+  column-count: 3;
 }
 
-.panelbox{
-	display: flex;
-	flex-wrap: wrap;
+.panelbox {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /*#panelbox > .card:first-child{
@@ -56,14 +53,14 @@ b {
 }*/
 
 .term {
-	flex-basis: 2;
-	height: 450px;
+  flex-basis: 2;
+  height: 450px;
 }
-.xterm-screen{
-	height: 350px !important;
+.xterm-screen {
+  height: 350px !important;
 }
 
-.pbuttons{
-	float: right;
-	margin-right: 10px;
+.pbuttons {
+  float: right;
+  margin-right: 10px;
 }

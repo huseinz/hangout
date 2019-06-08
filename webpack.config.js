@@ -1,16 +1,16 @@
-const path = require('path');
+const path = require("path");
 module.exports = {
-  mode: 'development',
+  mode: "development",
   entry: {
-    util: ['babel-polyfill', './frontend/jsx/util.jsx'],
-    pixelsorter: ['babel-polyfill', './frontend/jsx/pixelsorter.jsx']
+    util: ["babel-polyfill", "./frontend/jsx/util.jsx"],
+    pixelsorter: ["babel-polyfill", "./frontend/jsx/pixelsorter.jsx"]
   },
-  output:{
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'frontend') + "/static/js/"
+  output: {
+    filename: "[name].js",
+    path: path.resolve(__dirname, "frontend") + "/static/js/"
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: [".js", ".jsx"]
   },
   module: {
     rules: [
@@ -30,5 +30,5 @@ module.exports = {
         ]
       }
     ]
-  },
+  }
 };

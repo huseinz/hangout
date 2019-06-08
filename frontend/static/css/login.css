@@ -1,25 +1,24 @@
-#lgn{
-	margin: auto;
+#lgn {
+  margin: auto;
 }
 #un {
-	width: 20%;
+  width: 20%;
 }
 #pw {
-	width: 20%;
+  width: 20%;
 }
-#username{ 
-	width: 80%;
+#username {
+  width: 80%;
 }
-#password{
-	width: 80%;
+#password {
+  width: 80%;
 }
 
 .in_box {
-	width: 50%;
+  width: 50%;
 }
 
-#lgn{
-	padding: 10px;
-	border: 1px solid cyan;
+#lgn {
+  padding: 10px;
+  border: 1px solid cyan;
 }
-

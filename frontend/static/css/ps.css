@@ -1,40 +1,40 @@
-@import 'ls.css';
+@import "ls.css";
 
-.panelbox{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+.panelbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .panel {
-    display: block;
-    width: auto;
-    float: left;
-   /* flex-basis: 1;*/
-   /* flex-grow: 1;*/
+  display: block;
+  width: auto;
+  float: left;
+  /* flex-basis: 1;*/
+  /* flex-grow: 1;*/
 }
 
 .panel * {
-    margin: 2px;
+  margin: 2px;
 }
 
-.artPanel{
-    flex-shrink: 4;
+.artPanel {
+  flex-shrink: 4;
 }
-.settingsPanel form{
-    display:flex;
-    flex-direction: column;
-}
-
-.controlPanel{
-    flex-shrink: 2;
+.settingsPanel form {
+  display: flex;
+  flex-direction: column;
 }
 
-.controlPanel .inner{
-    display: flex;
-    flex-direction: column;
+.controlPanel {
+  flex-shrink: 2;
+}
+
+.controlPanel .inner {
+  display: flex;
+  flex-direction: column;
 }
 
 b {
-    color: #ff9800;
+  color: #ff9800;
 }

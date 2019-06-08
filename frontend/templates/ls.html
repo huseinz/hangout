@@ -1,61 +1,49 @@
-<!doctype html>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <body class="hack dark container">
+  {% include 'header.html' %}
+  <link rel="stylesheet" href="/css/hack.css" />
+  <link rel="stylesheet" href="/css/dark.css" />
+  <link rel="stylesheet" href="/css/ls.css" />
 
- {% include 'header.html' %}
-  <link rel="stylesheet" href="/css/hack.css" >
-  <link rel="stylesheet" href="/css/dark.css" >
-  <link rel="stylesheet" href="/css/ls.css" >
+  <div class="card">
+    <header class="card-header">files</header>
+    <div class="card-content">
+      <div class="inner tree">
+        {% macro listDir(f) %} {% if f.isDir %}
+        <li class="clt dir" onclick="dirClicked(this)">
+          {{f.filename}}
+          <ul class="clt" style="display: none;">
+            {% for subf in f.files %} {{ listDir(subf) }} {% endfor %}
+          </ul>
+        </li>
+        {% else %}
+        <a href="{{ f.filename }}">
+          <li class="clt file" onclick="fileClicked(this)">{{ f.filename }}</li>
+        </a>
+        {% endif %} {% endmacro %}
 
-<div class="card">
-<header class="card-header">files</header>
-<div class="card-content">
- <div class="inner tree">
-  {% macro listDir(f) %}
-   {% if f.isDir %}
-    <li class="clt dir" onclick="dirClicked(this)">
-     {{f.filename}}
-    <ul class="clt" style="display: none;">
-     {% for subf in f.files %}
-     {{ listDir(subf) }}
-     {% endfor %}
-    </ul>
-    </li>
-   {% else %}
-    <a href="{{ f.filename }}">
-        <li class="clt file" onclick="fileClicked(this)">{{ f.filename }}</li>
-    </a>
-   {% endif %}
-  {% endmacro %}
+        <ul class="clt">
+          {% for f in files %} {{ listDir(f) }} {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
 
-  <ul class="clt">
-  {% for f in files %}
-  {{ listDir(f) }}
-  {% endfor %}
-  </ul>
-
- </div>
-</div>
-</div>
-
-
-<script type="text/javascript">
-
-function dirClicked(ele){
-	var child = ele.firstElementChild
-    if (child.style.display !== 'none') {
-        child.style.display = 'none';
+  <script type="text/javascript">
+    function dirClicked(ele) {
+      var child = ele.firstElementChild;
+      if (child.style.display !== "none") {
+        child.style.display = "none";
+      } else {
+        child.style.display = "block";
+      }
+      event.stopPropagation();
     }
-    else {
-        child.style.display = 'block';
-    }	
-    event.stopPropagation();
-}
 
-function fileClicked(ele){
-    event.stopPropagation();
-}
-</script>
-
+    function fileClicked(ele) {
+      event.stopPropagation();
+    }
+  </script>
 </body>

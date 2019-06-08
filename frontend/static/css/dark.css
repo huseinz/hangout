@@ -1,186 +1,199 @@
 * {
-    font-family: courier;
-    font-size: 11px;
-    color: white;
-  }
-
+  font-family: courier;
+  font-size: 11px;
+  color: white;
+}
 
 .flex-container {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 
-    -webkit-flex-flow: column;
-    -webkit-flex-direction: column;
-    justify-content: space-around;
+  -webkit-flex-flow: column;
+  -webkit-flex-direction: column;
+  justify-content: space-around;
 }
 
 .flex-item {
-    color: white;
+  color: white;
 }
 
-#banner{
-	grid-column-start: 2;
-	grid-column-end: 2;
-	grid-row: 1;
+#banner {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row: 1;
 }
 
-.navcontainer{
-	display: grid;
-	grid-template-columns: auto auto auto;
-	grid-template-rows: auto auto;
-	column-gap: 10%;
-	/*grid-template-rows: 25% 25% 25% 25%;*/
+.navcontainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 10%;
+  /*grid-template-rows: 25% 25% 25% 25%;*/
 }
 
 #navbar {
 }
 
-
 .piccard {
-	float: right;
-	width: auto;
-	max-width: 50%;
-	padding: 2%;
-	padding-right: 0;
+  float: right;
+  width: auto;
+  max-width: 50%;
+  padding: 2%;
+  padding-right: 0;
 }
 
-img{
-	max-width: 100%;
-	max-height: 100%;
+img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
-.pad{
-	padding: 2%;
+.pad {
+  padding: 2%;
 }
 
-.fantano_0{
-	width: auto;
-	max-height: auto;
+.fantano_0 {
+  width: auto;
+  max-height: auto;
 }
 
 p {
-	text-align: justify;
+  text-align: justify;
 }
 iframe {
-	float: left;
-	padding: 2%;
-	padding-left: 0;
+  float: left;
+  padding: 2%;
+  padding-left: 0;
 }
 
 .icon {
-	  display: block;
-	    margin-left: auto;
-	      margin-right: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .dark {
-    color: white;
-    font-size: 14px;
+  color: white;
+  font-size: 14px;
 }
-.dark, .dark pre {
-    background-color: #000;
+.dark,
+.dark pre {
+  background-color: #000;
 }
 .dark pre {
-    padding: 0;
-    border: none;
+  padding: 0;
+  border: none;
 }
 .dark pre code {
-    color: #00bcd4;
+  color: #00bcd4;
 }
-.dark h1 a, .dark h2 a, .dark h3 a, .dark h4 a, .dark h5 a {
-    color: #ccc;
+.dark h1 a,
+.dark h2 a,
+.dark h3 a,
+.dark h4 a,
+.dark h5 a {
+  color: #ccc;
 }
-.dark code, .dark strong {
-    color: #fff;
+.dark code,
+.dark strong {
+  color: #fff;
 }
 .dark code {
-    font-weight: 100;
+  font-weight: 100;
 }
 .dark table {
-    color: #ccc;
+  color: #ccc;
 }
-.dark table td, .dark table th {
-    border-color: #444;
+.dark table td,
+.dark table th {
+  border-color: #444;
 }
 .dark table tbody td:first-child {
-    color: #fff;
+  color: #fff;
 }
 .dark .form-group label {
-    color: white;
-/*    border-color: rgba(95, 95, 95, .78);*/
-    border-color: cyan;
+  color: white;
+  /*    border-color: rgba(95, 95, 95, .78);*/
+  border-color: cyan;
 }
 .dark .form-group.form-textarea label:after {
-    background-color: #000;
+  background-color: #000;
 }
 .dark .form-control {
-    color: white;
-    border-color: rgba(95, 95, 95, .78);
-    border-color: cyan;
+  color: white;
+  border-color: rgba(95, 95, 95, 0.78);
+  border-color: cyan;
 }
 .dark .form-control:focus {
-    border-color: #ccc;
-    border-color: orange;
-    color: #ccc;
+  border-color: #ccc;
+  border-color: orange;
+  color: #ccc;
 }
 .dark textarea.form-control {
-    color: #ccc;
+  color: #ccc;
 }
 .dark .card {
-    border-color: rgba(95, 95, 95, .78);
-    border-color: cyan;
+  border-color: rgba(95, 95, 95, 0.78);
+  border-color: cyan;
 }
 .dark .card .card-header {
-    background-color: transparent;
-    color: #ccc;
-    border-bottom: 1px solid rgba(95, 95, 95, .78);
-    border-color: cyan;
+  background-color: transparent;
+  color: #ccc;
+  border-bottom: 1px solid rgba(95, 95, 95, 0.78);
+  border-color: cyan;
 }
 .dark .btn.btn-ghost.btn-default {
-    border-color: #ababab;
-    color: #ababab;
+  border-color: #ababab;
+  color: #ababab;
 }
-.dark .btn.btn-ghost.btn-default:focus, .dark .btn.btn-ghost.btn-default:hover {
-    border-color: #9c9c9c;
-    color: #9c9c9c;
-    z-index: 1;
+.dark .btn.btn-ghost.btn-default:focus,
+.dark .btn.btn-ghost.btn-default:hover {
+  border-color: #9c9c9c;
+  color: #9c9c9c;
+  z-index: 1;
 }
-.dark .btn.btn-ghost.btn-default:focus, .dark .btn.btn-ghost.btn-default:hover {
-    border-color: #e0e0e0;
-    color: #e0e0e0;
+.dark .btn.btn-ghost.btn-default:focus,
+.dark .btn.btn-ghost.btn-default:hover {
+  border-color: #e0e0e0;
+  color: #e0e0e0;
 }
-.dark .btn.btn-ghost.btn-primary:focus, .dark .btn.btn-ghost.btn-primary:hover {
-    border-color: #64b5f6;
-    color: #64b5f6;
-    border-color: #FF8C00;
-    color: #FF8C00;
+.dark .btn.btn-ghost.btn-primary:focus,
+.dark .btn.btn-ghost.btn-primary:hover {
+  border-color: #64b5f6;
+  color: #64b5f6;
+  border-color: #ff8c00;
+  color: #ff8c00;
 }
-.dark .btn.btn-ghost.btn-success:focus, .dark .btn.btn-ghost.btn-success:hover {
-    border-color: #81c784;
-    color: #81c784;
+.dark .btn.btn-ghost.btn-success:focus,
+.dark .btn.btn-ghost.btn-success:hover {
+  border-color: #81c784;
+  color: #81c784;
 }
-.dark .btn.btn-ghost.btn-info:focus, .dark .btn.btn-ghost.btn-info:hover {
-    border-color: #4dd0e1;
-    color: #4dd0e1;
+.dark .btn.btn-ghost.btn-info:focus,
+.dark .btn.btn-ghost.btn-info:hover {
+  border-color: #4dd0e1;
+  color: #4dd0e1;
 }
-.dark .btn.btn-ghost.btn-error:focus, .dark .btn.btn-ghost.btn-error:hover {
-    border-color: #e57373;
-    color: #e57373;
+.dark .btn.btn-ghost.btn-error:focus,
+.dark .btn.btn-ghost.btn-error:hover {
+  border-color: #e57373;
+  color: #e57373;
 }
-.dark .btn.btn-ghost.btn-warning:focus, .dark .btn.btn-ghost.btn-warning:hover {
-    border-color: #ffb74d;
-    color: #ffb74d;
+.dark .btn.btn-ghost.btn-warning:focus,
+.dark .btn.btn-ghost.btn-warning:hover {
+  border-color: #ffb74d;
+  color: #ffb74d;
 }
-.dark .avatarholder, .dark .placeholder {
-    background-color: transparent;
-    border-color: #333;
+.dark .avatarholder,
+.dark .placeholder {
+  background-color: transparent;
+  border-color: #333;
 }
 .dark .menu .menu-item {
-    color: #ccc;
-    border-color: rgba(95, 95, 95, .78);
+  color: #ccc;
+  border-color: rgba(95, 95, 95, 0.78);
 }
-.dark .menu .menu-item.active, .dark .menu .menu-item:hover {
-    color: #fff;
-    border-color: #ccc;
+.dark .menu .menu-item.active,
+.dark .menu .menu-item:hover {
+  color: #fff;
+  border-color: #ccc;
 }
-
