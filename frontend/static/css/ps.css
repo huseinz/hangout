@@ -3,6 +3,7 @@
 .panelbox{
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .panel {
@@ -17,14 +18,21 @@
     margin: 2px;
 }
 
+.artPanel{
+    flex-shrink: 4;
+}
 .settingsPanel form{
     display:flex;
     flex-direction: column;
 }
 
-.controlPanel inner{
+.controlPanel{
+    flex-shrink: 2;
+}
+
+.controlPanel .inner{
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 b {

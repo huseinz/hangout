@@ -30,7 +30,11 @@ class PixelSorter extends React.Component{
         isFilterEnabled: true,
         isHue: false,
         isAutoUpdate: false,
+
+        mouseDown: false,
     };
+
+    onPointerDown
 
     constructor(props){
         super(props);
@@ -43,11 +47,6 @@ class PixelSorter extends React.Component{
     componentDidMount() {
         const img = this.refs.image;
         img.onload = this.load_image;
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this.state.isAutoUpdate)
-            this.do_sort();
     }
 
     reset = () => {
@@ -78,9 +77,15 @@ class PixelSorter extends React.Component{
 
     onChange_slider = (e) => {
         this.setState({[e.target.getAttribute('stateparam')]:e.target.value});
+        if(this.state.isAutoUpdate && !this.state.mouseDown){
+            this.do_sort();
+        }
     }
     onChange_checkbox = (e) => {
         this.setState({[e.target.getAttribute('stateparam')]:e.target.checked});
+        if(this.state.isAutoUpdate){
+            this.do_sort();
+        }
     }
 
     update_img_path = (path) => {
@@ -218,15 +223,18 @@ class PixelSorter extends React.Component{
         const blueStyle = {color: 'blue',};
         const imgStyle = {
             display: 'none',
-            height: 'auto',
-            width: 'auto',
+            height: '100%',
+            width: '100%',
             maxWidth: '100%',
             objectFit: 'contain',
+            flexShrink: 0,
+            alignSelf: 'center',
         };
         const canvStyle = {
-            height: 'auto',
-            width: 'auto',
-            maxWidth: '100%',
+            height: this.state.h,
+            width: this.state.w,
+            maxWidth: this.state.w,
+            flexShrink: 0,
             objectFit: 'contain',
         };
         const panelStyle = {
@@ -242,11 +250,11 @@ class PixelSorter extends React.Component{
         }
         return(
         <PanelContainer>
-                <Panel style={panelStyle} title="art">
+                <Panel style={panelStyle} title="art" className="artPanel">
                     <canvas style={canvStyle} ref="canvas" width={this.state.img_width} height={this.state.img_height} />
                 </Panel>
 
-            <Panel  title="controls">
+              <Panel  title="actions" className="controlPanel">
 
                 <Panel title="hue adjust">
                     <form onSubmit={this.do_sort} className="form-group">
@@ -398,6 +406,26 @@ class PixelSorter extends React.Component{
                 </label>
                     </form>
                 </Panel>
+                  <form onSubmit={this.do_sort} className="form-group">
+                      <button
+                          ref="draw"
+                          className="btn btn-primary btn-ghost"
+                          type="submit">sort</button>
+                      <button
+                          ref="reset"
+                          className="btn btn-primary btn-ghost"
+                          type="button"
+                          onClick={this.reset}>reset</button>
+
+                      <img
+                          ref="image"
+                          src={this.state.img_path}
+                          style={imgStyle}/>
+                  </form>
+            </Panel>
+
+
+
                     <Panel title='settings' className='settingsPanel'>
                         <form onSubmit={this.do_sort} className="form-group">
                 <label>vertical
@@ -453,37 +481,21 @@ class PixelSorter extends React.Component{
                 </label></form>
 
                     </Panel>
-                    <form onSubmit={this.do_sort} className="form-group">
-                <button
-                    ref="draw"
-                    className="btn btn-primary btn-ghost"
-                    type="submit">sort</button>
-                <button
-                    ref="reset"
-                    className="btn btn-primary btn-ghost"
-                    type="button"
-                    onClick={this.reset}>reset</button>
 
-                <img
-                    ref="image"
-                    src={this.state.img_path}
-                    style={imgStyle}/>
-                </form>
-                <Panel title="About">
+            <Panel><FileBrowser callback={this.update_img_path}/></Panel>
+
+            <Panel title="About">
                     <p> Hit Enter to generate new image without clicking <b>sort</b></p>
                     <ul className="clt">
                         <li><b>Hue</b>: adjusts hue of pixels chosen for sorting</li>
                         <li><b>Threshold</b>: determines which pixels are sorted</li>
                         <li><b>Persistent</b>: applies sort to previous result</li>
                         <li><b>Contiguous</b>: will only sort contiguous chunks of pixels<br/>
-                            that are within the threshold.Default behavior sorts<br/>
+                            that are within the threshold. Default behavior sorts<br/>
                             from the first and last pixel within a row that are<br/>
                             within the threshold</li>
                     </ul>
                 </Panel>
-
-            </Panel>
-            <Panel><FileBrowser callback={this.update_img_path}/></Panel>
 
         </PanelContainer>
         )
