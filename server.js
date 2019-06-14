@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 5000;
@@ -25,7 +25,7 @@ const io = require('socket.io').listen(server);
 nunjucks.configure('frontend/templates', {autoescape: true, express: app});
 app.set('view engine', 'html');
 
-app.use(require('./routes/main'))
+app.use(require('./routes/main'));
 
 //pre-flight requests
 app.options('*', function(req, res) {

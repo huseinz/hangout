@@ -6,7 +6,7 @@ import PixelSorter from "./components/pixelsorter";
 
 ReactDOM.render(
   <Panel>
-    <PixelSorter text="sup" defaultimg="/img/sc2.jpg" />
+    <PixelSorter text="sup" defaultimg="/img/blossom.jpg" />
   </Panel>,
   document.getElementById("reactpanelbox")
 );

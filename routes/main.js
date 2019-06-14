@@ -48,6 +48,7 @@ router.post("/upload", (req, res) => {
 
   fs.writeFile(tmpfn, b64, { encoding: "base64" }, function(err) {
     console.log("File created");
+    console.log(err);
   });
   Jimp.read(tmpfn)
     .then(lenna => {

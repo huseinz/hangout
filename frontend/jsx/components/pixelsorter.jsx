@@ -3,6 +3,14 @@ import FileBrowser from "./filebrowser";
 import Panel from "./panel";
 import PanelContainer from "./panelcontainer";
 
+let testBuffer = new Uint8Array([1,2,3,4,5]);
+let worker = new Worker("/js/sort_worker.js");
+worker.onmessage = (e) => {
+  console.log(e);
+  testBuffer = e.data.testBuffer;
+  console.log(testBuffer);
+};
+
 const img_utils = require("../../../core/Image");
 
 class PixelSorter extends React.Component {
@@ -10,8 +18,8 @@ class PixelSorter extends React.Component {
     img_loaded: false,
     img: null,
     imgdata: null,
-    img_width: 800,
-    img_height: 640,
+    img_width: 800, //placeholder
+    img_height: 640, //placeholder
     img_path: "",
     w: 0,
     h: 0,
@@ -192,6 +200,8 @@ class PixelSorter extends React.Component {
     if (!this.state.img_loaded) return;
     let img = this.state.img;
 
+    worker.postMessage({red: 0, blue: 0, green:0, testBuffer:testBuffer});
+
     if (!this.state.isPersistent) img = new img_utils.Image(this.state.imgdata);
 
     if (this.state.isVertical) {
@@ -214,6 +224,7 @@ class PixelSorter extends React.Component {
   };
 
   render() {
+
     const redStyle = { color: "red" };
     const greenStyle = { color: "green" };
     const blueStyle = { color: "blue" };

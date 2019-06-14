@@ -3,7 +3,8 @@ module.exports = {
   mode: "development",
   entry: {
     util: ["babel-polyfill", "./frontend/jsx/util.jsx"],
-    pixelsorter: ["babel-polyfill", "./frontend/jsx/pixelsorter.jsx"]
+    pixelsorter: ["babel-polyfill", "./frontend/jsx/pixelsorter.jsx"],
+    sort_worker: "./core/sort_worker.js"
   },
   output: {
     filename: "[name].js",
