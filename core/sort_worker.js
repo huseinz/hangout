@@ -1,11 +1,37 @@
+const img_utils = require("./Image");
+
+this.queue = [];
+
 onmessage = (e) => {
-   console.log(e.data);
-   e.data.testBuffer[2] = 100;
-   postMessage({message: 'received!', testBuffer:e.data.testBuffer}, [e.data.testBuffer.buffer]);
+
+    this.state = e.data;
+
+    this.img = new img_utils.Image(this.state.rawimgdata, this.state.w, this.state.h);
+    this.do_sort();
+
+    postMessage({message: 'success', rawimgdata: this.img.getImageData().data}, [this.img.getImageData().data.buffer]);
 };
 
 
-sort_between = (row, comparison, filter) => {
+this.do_sort = () => {
+    if (this.state.isVertical) {
+        for (let x = 0; x < this.state.w; x++) {
+            let newcol = this.sort_between(
+                this.img.getColumn(x),
+                this.compare,
+                this.filter
+            );
+            this.img.setColumn(newcol, x);
+        }
+    } else {
+        for (let y = 0; y < this.state.h; y++) {
+            this.sort_between(this.img.pixels[y], this.compare, this.filter);
+        }
+    }
+}
+
+
+this.sort_between = (row, comparison, filter) => {
     //let row = img.pixels[y];
     // img.pixels[y] = row.sort(comparison);
     const n = row.length;
@@ -33,7 +59,7 @@ sort_between = (row, comparison, filter) => {
     return row;
 };
 
-adj_hue = (row, hue) => {
+this.adj_hue = (row, hue) => {
     const res = new Uint8ClampedArray(row.buffer);
     const n = res.length;
     for (let i = 0; i < n; i += 4) {
@@ -43,7 +69,8 @@ adj_hue = (row, hue) => {
     }
     return new Uint32Array(res.buffer);
 };
-compare = (...args) => {
+
+this.compare = (...args) => {
     const pix = new Uint8ClampedArray(new Uint32Array(args).buffer);
     // console.log(pix);
     const a = pix[0] + pix[1] + pix[2];
@@ -52,7 +79,7 @@ compare = (...args) => {
     return b - a;
 };
 
-filter = (thresh, ...pix) => {
+this.filter = (thresh, ...pix) => {
     if (!this.state.isFilterEnabled) return true;
     pix = new Uint8ClampedArray(new Uint32Array(pix).buffer);
     //  console.log(pix, hue);

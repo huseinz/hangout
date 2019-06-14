@@ -35,6 +35,12 @@
   flex-direction: column;
 }
 
+.aboutPanel .inner{
+  display: flex;
+  flex-direction: column;
+
+}
+
 b {
   color: #ff9800;
 }

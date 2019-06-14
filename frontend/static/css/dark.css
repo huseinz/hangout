@@ -137,7 +137,7 @@ iframe {
 }
 .dark .card .card-header {
   background-color: transparent;
-  color: #ccc;
+  color: #ffffff;
   border-bottom: 1px solid rgba(95, 95, 95, 0.78);
   border-color: cyan;
 }

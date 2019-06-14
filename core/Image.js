@@ -1,9 +1,22 @@
 class Image {
-  constructor(imgdata) {
-    this.initFromBuffer(imgdata);
+  constructor(imgdata, w, h) {
+    this.initFromRawBuffer(imgdata, w, h);
   }
 
-  initFromBuffer = imgdata => {
+  initFromRawBuffer = (rawbuf, w, h) => {
+    let inBuf = rawbuf;
+    this.w = w;
+    this.h = h;
+
+    this.pixels = new Array(this.h);
+    for (let y = 0; y < this.h; y++) {
+      this.pixels[y] = new Uint32Array(
+          inBuf.slice(y * this.w * 4, y * this.w * 4 + this.w * 4).buffer
+      );
+    }
+  };
+
+  /*initFromBuffer = imgdata => {
     let inBuf = imgdata.data;
     this.w = imgdata.width;
     this.h = imgdata.height;
@@ -14,21 +27,7 @@ class Image {
         inBuf.slice(y * this.w * 4, y * this.w * 4 + this.w * 4).buffer
       );
     }
-  };
-
-  swapPixel = (x1, y1, x2, y2) => {
-    const tmp = this.pixels[y1][x1];
-    this.pixels[y1][x1] = this.pixels[y2][x2];
-    this.pixels[y2][x1] = tmp;
-    console.log(
-      "tmp:",
-      tmp,
-      "1:",
-      this.pixels[y1][x1],
-      "2:",
-      this.pixels[y2][x2]
-    );
-  };
+  };*/
 
   getColumn = x => {
     let col = new Uint32Array(this.h);
@@ -37,14 +36,6 @@ class Image {
   };
   setColumn = (col, x) => {
     for (let y = 0; y < this.h; y++) this.pixels[y][x] = col[y];
-  };
-
-  getRow = y => {
-    return this.pixels[y];
-  };
-
-  setRow = (arr, y) => {
-    this.pixels[y] = arr; //perhaps copy instead
   };
 
   getImageData = () => {
