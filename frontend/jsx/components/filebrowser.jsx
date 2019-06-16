@@ -59,7 +59,7 @@ class FileBrowser extends React.Component {
 
   onDirClick = e => {
     console.log(e.props.path);
-    e.setState({hideChildren: false});
+    e.setState({hideChildren: !e.state.hideChildren});
   };
 
   getBase64 = (file, callback) => {
