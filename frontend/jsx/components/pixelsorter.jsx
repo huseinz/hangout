@@ -2,6 +2,7 @@ import React from "react";
 import FileBrowser from "./filebrowser";
 import Panel from "./panel";
 import PanelContainer from "./panelcontainer";
+const validFilename = require('valid-filename');
 
 let worker = new Worker("/js/sort_worker.js");
 
@@ -33,7 +34,9 @@ class PixelSorter extends React.Component {
     isHue: false,
     isAutoUpdate: false,
     isWorkerRunning: false,
-    mouseDown: false
+    mouseDown: false,
+
+    uploadError: false
   };
 
   constructor(props) {
@@ -128,6 +131,39 @@ class PixelSorter extends React.Component {
     this.setState({ imgdata: imgdata }, () => {
       ctx.putImageData(imgdata, 0, 0);
     });
+  };
+
+  save_image = (e) => {
+    e.preventDefault();
+    console.log(this.refs.save.value);
+
+    if(!validFilename(this.refs.save.value.trim())){
+        console.log('fix ur filename');
+        this.setState({uploadError: true});
+        setTimeout(() => {this.setState({uploadError: false})}, 5000);
+        return;
+    }
+
+    let fn = this.refs.save.value.trim() + ".png";
+    let b64 = this.refs.canvas.toDataURL();
+
+    fetch('/pixelsorter/upload', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        b64: b64,
+        filename: fn,
+        dir: 'img/saved'
+      })
+    })
+        .then(() => {
+          console.log('save fetch complete');
+        })
+        .catch(err => {
+          console.log(err.text());
+        });
 
   };
 
@@ -199,6 +235,7 @@ class PixelSorter extends React.Component {
           />
         </Panel>
 
+        {/** CONTROL PANEL **/}
         <Panel title="actions" className="controlPanel">
           <Panel title="hue adjust">
             <form onSubmit={this.do_sort} className="form-group">
@@ -402,12 +439,28 @@ class PixelSorter extends React.Component {
             >
               reset
             </button>
-
-
             <img ref="image" src={this.state.img_path} style={imgStyle} />
           </form>
-        </Panel>
 
+          {/** SAVE IMAGE **/}
+          <form onSubmit={this.save_image}>
+            <input
+                type='text'
+                className='form-control'
+                ref='save'
+            />.png
+            <button
+                className="btn btn-primary btn-ghost"
+                type='submit'>
+              save
+            </button>
+          </form>
+          {this.state.uploadError ? <div className="alert alert-error">fix ur filename</div> : <span></span>}
+          {/** SAVE IMAGE **/}
+        </Panel>
+        {/** CONTROL PANEL **/}
+
+        {/** SETTINGS PANEL **/}
         <Panel title="settings" className="settingsPanel">
           <form onSubmit={this.do_sort} className="form-group">
             <label>
@@ -472,11 +525,15 @@ class PixelSorter extends React.Component {
               />
           </form>
         </Panel>
+        {/** SETTINGS PANEL **/}
 
+        {/** FILEBROWSER PANEL **/}
         <Panel>
-          <FileBrowser callback={this.update_img_path} />
+          <FileBrowser endpoint="/pixelsorter/upload" callback={this.update_img_path} />
         </Panel>
+        {/** FILEBROWSER PANEL **/}
 
+        {/** ABOUT PANEL **/}
         <Panel title="About" className='aboutPanel'>
           <p>
             {" "}
@@ -499,6 +556,7 @@ class PixelSorter extends React.Component {
             </li>
           </ul>
         </Panel>
+        {/** ABOUT PANEL **/}
       </PanelContainer>
     );
   }

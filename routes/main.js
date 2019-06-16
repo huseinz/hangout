@@ -36,19 +36,20 @@ router.get("/ls_page", (err, res) => {
 });
 router.get("/ls", (err, res) => {
   const filetree = require("../core/ls").filetree;
-  res.json(filetree(process.cwd() + "/frontend/static/img"));
+  let cwd = process.cwd() + "/frontend/static/img";
+  res.json(filetree(cwd, cwd));
 });
 
-router.post("/upload", (req, res) => {
+router.post("/pixelsorter/upload", (req, res) => {
   let b64 = req.body.b64;
   b64 = b64.split(";base64,").pop();
 
-  const tmpfn = "/tmp/" + req.body.name;
-  const outfn = "./frontend/static/img/" + req.body.name;
+  const tmpfn = "/tmp/" + req.body.filename;
+  const outfn = "./frontend/static/" + req.body.dir + '/' + req.body.filename ;
 
   fs.writeFile(tmpfn, b64, { encoding: "base64" }, function(err) {
     console.log("File created");
-    console.log(err);
+    console.log(tmpfn, outfn);
   });
   Jimp.read(tmpfn)
     .then(lenna => {

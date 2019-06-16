@@ -1,5 +1,33 @@
 import React from "react";
 
+class FileItem extends React.Component{
+
+  state = {
+    hideChildren: true
+  };
+
+  constructor(props){
+    super(props);
+  }
+
+  handleClick = (e) => {
+    this.props.handleClick(this);
+  };
+
+  render() {
+    return(
+        <li
+          className={this.props.className}
+          onClick={this.handleClick}
+        >
+          {this.props.filename}
+          {this.state.hideChildren && this.props.children}
+        </li>
+    );
+  }
+
+}
+
 class FileBrowser extends React.Component {
   state = {
     ftree: null
@@ -15,6 +43,7 @@ class FileBrowser extends React.Component {
     fetch("/ls", { credentials: "same-origin" }).then(response => {
       response.json().then(files => {
         this.setState({ ftree: files.map(f => this.generateTree(f)) });
+        console.log(this.state.ftree);
       });
     });
   };
@@ -24,39 +53,13 @@ class FileBrowser extends React.Component {
   }
 
   onFileClick = e => {
-    console.log(e.target.id);
-    this.props.callback("/img/" + e.target.id);
+    console.log(e.props.path);
+    this.props.callback("/img/" + e.props.path);
   };
 
-  generateTree = f => {
-    let tree = <div></div>;
-    if (f.isDir) {
-      tree = (
-        <li
-          className="clt dir"
-          key={f.fullpath}
-          id={f.filename}
-          onClick={this.onFileClick}
-        >
-          {f.filename}
-          <ul className="clt" style={{ display: "none" }}>
-            {f.files.map(file => this.generateTree(file))}
-          </ul>
-        </li>
-      );
-    } else {
-      tree = (
-        <li
-          className="clt file"
-          key={f.fullpath}
-          id={f.filename}
-          onClick={this.onFileClick}
-        >
-          {f.filename}
-        </li>
-      );
-    }
-    return tree;
+  onDirClick = e => {
+    console.log(e.props.path);
+    e.setState({hideChildren: false});
   };
 
   getBase64 = (file, callback) => {
@@ -77,14 +80,15 @@ class FileBrowser extends React.Component {
     this.getBase64(this.fileInput.current.files[0], b64 => {
       if (b64) {
         //b64 should be readable by <img>
-        fetch("/upload", {
+        fetch(this.props.endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
             b64: b64,
-            name: this.fileInput.current.files[0].name
+            filename: this.fileInput.current.files[0].name,
+            relpath: 'img/'
           })
         })
           .then(() => {
@@ -96,6 +100,38 @@ class FileBrowser extends React.Component {
       }
     });
   };
+
+  generateTree = f => {
+    let tree = <div></div>;
+    if (f.isDir) {
+      tree = (
+          <FileItem
+              className="clt dir"
+              key={f.filename}
+              filename={f.filename}
+              path={f.relpath}
+              handleClick={this.onDirClick}
+          >
+            <ul className="clt">
+              {f.files.map(file => this.generateTree(file))}
+            </ul>
+          </FileItem>
+      );
+    } else {
+      tree = (
+          <FileItem
+              className="clt file"
+              key={f.filename}
+              filename={f.filename}
+              path={f.relpath}
+              handleClick={this.onFileClick}
+          >
+          </FileItem>
+      );
+    }
+    return tree;
+  };
+
   render() {
     //method="POST" action='/upload'
     return (
