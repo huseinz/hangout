@@ -1,6 +1,6 @@
 import React from "react";
 
-/*import PxTerm from './term.jsx'
+/*import PxTerm from './shell.jsx'
 import Chat from './chat.jsx'
 import Roll from './roll.jsx'
 import MyYT from './youtube.jsx'*/

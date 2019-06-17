@@ -7,7 +7,7 @@ class PxTerm extends React.Component {
     Terminal.applyAddon(fit);
     Terminal.applyAddon(webLinks);
     Terminal.applyAddon(search);
-    this.term = new Terminal({
+    this.term = new RTerminal({
       cursorBlink: true,
       macOptionIsMeta: true,
       scrollback: true,

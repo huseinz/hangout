@@ -50,6 +50,7 @@ router.post("/pixelsorter/upload", (req, res) => {
   fs.writeFile(tmpfn, b64, { encoding: "base64" }, function(err) {
     console.log("File created");
     console.log(tmpfn, outfn);
+    console.log(err);
   });
   Jimp.read(tmpfn)
     .then(lenna => {
@@ -61,6 +62,7 @@ router.post("/pixelsorter/upload", (req, res) => {
     .catch(err => {
       console.error(err);
     });
+
   fs.unlink(tmpfn, err => {
     if (err) console.log(err);
   });

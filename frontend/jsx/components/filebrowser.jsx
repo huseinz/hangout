@@ -44,7 +44,6 @@ class FileBrowser extends React.Component {
     fetch("/ls", { credentials: "same-origin" }).then(response => {
       response.json().then(files => {
         this.setState({ ftree: files.map(f => this.generateTree(f)) });
-        console.log(this.state.ftree);
       });
     });
   };
@@ -55,7 +54,7 @@ class FileBrowser extends React.Component {
 
   onFileClick = e => {
     console.log(e.props.path);
-    this.props.callback("/img/" + e.props.path);
+    this.props.callback("/img" + e.props.path);
   };
 
   onDirClick = e => {
@@ -89,7 +88,7 @@ class FileBrowser extends React.Component {
           body: JSON.stringify({
             b64: b64,
             filename: this.fileInput.current.files[0].name,
-            relpath: 'img/'
+            dir: 'img'
           })
         })
           .then(() => {
