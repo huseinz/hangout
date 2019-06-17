@@ -1,9 +1,14 @@
 const io = require("../server").io;
+const chatsocket = io.of('/chat');
 
-io.on("connection", function(socket) {
-  console.log("client connected");
-  socket.emit("test", "hi!!");
-  socket.on("test", function(data) {
-    console.log(data);
+let tmpmessages = [{username:'zubir', message:"doinks"}];
+
+chatsocket.on("connection", function(socket) {
+  console.log("chat client connected");
+  socket.on("userpost", function(data) {
+    console.log("got message:", data);
+    tmpmessages.push(data);
+    socket.emit("postfeed", JSON.stringify(tmpmessages));
   });
+  socket.emit("postfeed", JSON.stringify(tmpmessages));
 });

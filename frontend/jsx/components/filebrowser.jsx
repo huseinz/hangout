@@ -11,6 +11,7 @@ class FileItem extends React.Component{
   }
 
   handleClick = (e) => {
+    e.stopPropagation();
     this.props.handleClick(this);
   };
 

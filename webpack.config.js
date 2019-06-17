@@ -4,7 +4,8 @@ module.exports = {
   entry: {
     util: ["babel-polyfill", "./frontend/jsx/util.jsx"],
     pixelsorter: ["babel-polyfill", "./frontend/jsx/pixelsorter.jsx"],
-    sort_worker: "./core/sort_worker.js"
+    sort_worker: "./core/sort_worker.js",
+    ls: "./frontend/jsx/ls.jsx"
   },
   output: {
     filename: "[name].js",

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>{% block title %} Gummy Zone {% endblock %}</title>
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/css/hack.css" />
+    <link rel="stylesheet" type="text/css" href="/css/dark.css" />
+{% endblock %}
+
+<body class={% block bodyclass %}"hack dark container"{% endblock %}>
+
+{% block header %}
+    <a href="/" class="" id="banner">
+        <div class="card">
+            <header class="card-header"><b>Gummy Addiction Help Center</b></header>
+            <div class="card-content">
+                <div class="inner" style="text-align:center">
+                    This is a gummy free zone!
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <div class="card" id="navbar">
+        <div class="card-content">
+            <div class="inner">
+                <div class="hack dark navcontainer">
+                    <a class="grid-item" href="/youtube-chat">
+                        CHAT
+                        <div class="pull-right">»</div>
+                    </a>
+                    <a class="grid-item" href="/ls_page">
+                        FILES
+                        <div class="pull-right">»</div>
+                    </a>
+                    <a class="grid-item" href="https://polyhedra.tessera.li">
+                        POLYHEDRA
+                        <div class="pull-right">»</div>
+                    </a>
+                    <a class="grid-item" href="https://matias.ma/nsfw/">
+                        ( DITTO )
+                        <div class="pull-right">»</div>
+                    </a>
+                    <a class="grid-item" href="/util">
+                        UTILITIES
+                        <div class="pull-right">»</div>
+                    </a>
+                    <a class="grid-item" href="/pixelsorter">
+                        PIXELSORTER
+                        <div class="pull-right">»</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{%  block content %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+</body>

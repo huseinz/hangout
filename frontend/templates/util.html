@@ -1,18 +1,21 @@
-<!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="/css/hack.css" />
-<link rel="stylesheet" href="/css/dark.css" />
-<link rel="stylesheet" href="/css/login.css" />
-<link rel="stylesheet" href="/css/util.css" />
-<link rel="stylesheet" href="https://unpkg.com/xterm@3.6.0/dist/xterm.css" />
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Utilities</title>
-  </head>
-  <body class="hack dark">
-    {% include 'header.html' %}
+{% extends "layout.html" %}
 
+{% block style %}
+    {{ super() }}
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/util.css" />
+    <link rel="stylesheet" href="https://unpkg.com/xterm@3.6.0/dist/xterm.css" />
+{% endblock %}
+
+{% block title %}
+    Utilities
+{% endblock %}
+
+{% block bodyclass %}
+    "hack dark"
+{% endblock %}
+
+{% block content %}
     <p>
       Miscellaneous communal utilities: random numbers, mathematics tools,
       optical character recognition, and more
@@ -22,7 +25,9 @@
     <select id="new_util_select"> </select>
 
     <div id="reactpanelbox"></div>
+{% endblock %}
 
+{% block scripts %}
     <script src="https://unpkg.com/xterm@3.6.0/dist/xterm.js"></script>
     <script src="https://unpkg.com/xterm@3.6.0/dist/addons/fit/fit.js"></script>
     <script src="https://unpkg.com/xterm@3.6.0/dist/addons/webLinks/webLinks.js"></script>
@@ -31,26 +36,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
 
     <script src="/js/util.js"></script>
-
-    <style>
-      #sendbtn {
-        float: left;
-      }
-
-      #message {
-        padding-top: 0px;
-      }
-
-      #messagelabel {
-        width: auto;
-        height: auto;
-        line-height: normal;
-      }
-
-      #postbox {
-        overflow: scroll;
-        max-height: 30vh;
-      }
-    </style>
-  </body>
-</html>
+{% endblock %}

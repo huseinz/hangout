@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 
 class Chat extends React.Component {
   state = {
@@ -14,7 +13,7 @@ class Chat extends React.Component {
   sendMessage() {
     if (this.state.str_message.length === 0) return;
 
-    var post = {
+    let post = {
       username: "notzubir",
       message: this.state.str_message
     };
@@ -26,7 +25,7 @@ class Chat extends React.Component {
     console.log("refreshing");
     posts = JSON.parse(posts);
     let buffer = [];
-    for (var i = posts.length - 1; i >= 0; i--) {
+    for (let i = posts.length - 1; i >= 0; i--) {
       buffer.push(<h1> {posts[i].username} </h1>);
       buffer.push(<p>{posts[i].message}</p>);
     }
@@ -36,7 +35,7 @@ class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.props.set_title("Chat");
-    this.chatsocket = io.connect("/comm");
+    this.chatsocket = io.connect("/chat");
     this.handleInputChange = this.handleInputChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.refreshPosts = this.refreshPosts.bind(this);
