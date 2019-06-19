@@ -1,16 +1,19 @@
 import React from "react";
+import { CSSTransition } from 'react-transition-group'
 
 class Chat extends React.Component {
   state = {
     str_message: "pls change",
-    content: ""
+    content: "",
+    inProp: true
   };
 
   handleInputChange(e) {
     this.setState({ str_message: e.target.value });
   }
 
-  sendMessage() {
+  sendMessage(e) {
+    e.preventDefault();
     if (this.state.str_message.length === 0) return;
 
     let post = {
@@ -25,9 +28,25 @@ class Chat extends React.Component {
     console.log("refreshing");
     posts = JSON.parse(posts);
     let buffer = [];
-    for (let i = posts.length - 1; i >= 0; i--) {
-      buffer.push(<h1> {posts[i].username} </h1>);
-      buffer.push(<p>{posts[i].message}</p>);
+    const transition = {
+    //  animation: 'slide-right 0.4s ease'
+    };
+
+    for (let i = 0; i < posts.length; i++) {
+      buffer.push(
+
+          <CSSTransition
+              in={this.state.inProp}
+              timeout={500}
+              classNames='my-node'
+              key={posts[i].uuid}
+              appear
+          >
+            <div className="chatelem">
+                    <b> {posts[i].username}: </b>
+                    {posts[i].message}
+            </div>
+          </CSSTransition>);
     }
     this.setState({ content: buffer });
   }
@@ -43,32 +62,34 @@ class Chat extends React.Component {
   }
 
   render() {
+
     return (
-      <div>
-        <div id="postbox">{this.state.content}</div>
+      <div className="chat">
+        <div id="postbox">
+          {this.state.content}
+        </div>
         <input
           className="warning"
           type="hidden"
           value={this.state.str_message}
           onChange={this.handleInputChange}
         />
-        <form className="form">
-          <fieldset className="form-group form-textarea">
+        <form className="inputbox">
             <label>MESSAGE:</label>
             <textarea
-              className="form-control"
+              className="form-control form-textarea"
               value={this.state.str_message}
               onChange={this.handleInputChange}
             ></textarea>
-          </fieldset>
+          <button
+              className="btn btn-default btn-ghost"
+              id="sendbtn"
+              type="button"
+              onClick={this.sendMessage}
+          >
+            SEND
+          </button>
         </form>
-        <button
-          className="btn btn-default btn-ghost"
-          id="sendbtn"
-          onClick={this.sendMessage}
-        >
-          SEND
-        </button>
       </div>
     );
   }

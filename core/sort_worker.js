@@ -8,11 +8,15 @@ onmessage = (e) => {
     this.totalCompares = 0;
 
     this.img = new img_utils.Image(this.state.rawimgdata, this.state.w, this.state.h);
+
+    const starttime = new Date().getTime();
     this.do_sort();
+    const totalTime = new Date().getTime() - starttime;
 
     postMessage({  message: 'success',
                             rawimgdata: this.img.getImageData().data,
                             totalCompares: this.totalCompares,
+                            totalTime: totalTime
                          },
                 [this.img.getImageData().data.buffer]);
 };

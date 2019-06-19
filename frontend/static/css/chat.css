@@ -1,0 +1,33 @@
+.chatelem {
+
+}
+
+@keyframes slide-in {
+    100% { transform: translateX(0%); }
+}
+
+@-webkit-keyframes slide-in {
+    100% { -webkit-transform: translateX(0%); }
+}
+
+.inputbox {
+    float: right;
+}
+
+.my-node-enter, .my-node-appear {
+    opacity: 0;
+    animation: slide-in 0.5s forwards ;
+    -webkit-animation: slide-in 0.5s forwards;
+}
+
+.my-node-enter-active, .my-node-appear-active{
+    opacity: 1;
+    transition: opacity 1000ms;
+}
+.my-node-exit {
+    opacity: 1;
+}
+.my-node-exit-active {
+    opacity: 0;
+    transition: opacity 1000ms;
+}

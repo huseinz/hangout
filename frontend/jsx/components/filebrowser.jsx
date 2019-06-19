@@ -22,7 +22,7 @@ class FileItem extends React.Component{
           onClick={this.handleClick}
         >
           {this.props.filename}
-          {this.state.hideChildren && this.props.children}
+          {!this.state.hideChildren && this.props.children}
         </li>
     );
   }
@@ -135,8 +135,8 @@ class FileBrowser extends React.Component {
   render() {
     //method="POST" action='/upload'
     return (
-      <div className="inner tree">
-        <ul className="clt">{this.state.ftree}</ul>
+      <div>
+        <ul className="tree clt">{this.state.ftree}</ul>
         <form
           onSubmit={this.onUpload}
           className="form-group"

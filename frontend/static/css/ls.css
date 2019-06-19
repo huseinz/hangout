@@ -1,3 +1,9 @@
+.tree::-webkit-scrollbar { width: 0 !important }
+
+.tree {
+  overflow: scroll;
+}
+
 .dir {
   color: #ff2e88;
 }
@@ -11,6 +17,7 @@ ul.clt ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  max-height: 300px;
 }
 ul.clt ul {
   margin-left: 10px;
@@ -18,7 +25,7 @@ ul.clt ul {
 ul.clt li {
   margin: 0;
   padding: 0 7px;
-  line-height: 20px;
+  line-height: 10px;
   border-left: 1px solid #ff9800;
 }
 ul.clt li:last-child {
@@ -28,7 +35,7 @@ ul.clt li:before {
   position: relative;
   top: -0.3em;
   height: 1em;
-  width: 12px;
+  width: 7px;
   border-bottom: 1px solid #ff9800;
   content: "";
   display: inline-block;
