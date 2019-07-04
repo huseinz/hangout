@@ -18,8 +18,6 @@ class PixelSorter extends React.Component {
     img_width: 800, //placeholder
     img_height: 640, //placeholder
     img_path: "",
-    img_element: null,
-    max_width: window.innerWidth,
     w: 0,
     h: 0,
     ctx: null,
@@ -48,18 +46,16 @@ class PixelSorter extends React.Component {
     this.state.img_path = this.props.defaultimg;
     this.termRef = React.createRef();
 
-    this.state.img_element = new Image();
-    this.state.img_element.src = this.state.img_path;
-
     worker.onmessage = (e) => {
       this.setState({imgdata: new ImageData(e.data.rawimgdata, this.state.w, this.state.h), isWorkerRunning: false});
       this.state.ctx.putImageData(this.state.imgdata, 0, 0);
-      this.writeLog("finished: " + e.data.totalCompares + ' total comparisons in ' + e.data.totalTime/1000 + "s");
+      this.writeLog("finished: " + e.data.totalCompares + ' total comparisons')
     };
   }
 
   componentDidMount() {
-    this.state.img_element.onload = this.load_image;
+    const img = this.refs.image;
+    img.onload = this.load_image;
   }
 
   writeLog = (text) => {
@@ -106,17 +102,15 @@ class PixelSorter extends React.Component {
   };
 
   update_img_path = path => {
-    this.state.img_element.src = path;
     this.setState({ img_loaded: false, img_path: encodeURI(path) });
   };
 
   load_image = () => {
-    const img = this.state.img_element;
+    const img = this.refs.image;
 
     const canvas = this.refs.canvas;
-  //  canvas.setAttribute('width', window.innerWidth);
-  //  canvas.setAttribute('height', window.innerHeight);
-
+    canvas.setAttribute("width", img.width);
+    canvas.setAttribute("height", img.height);
     const ctx = canvas.getContext("2d");
     this.setState({
       img_loaded: true,
@@ -126,7 +120,6 @@ class PixelSorter extends React.Component {
       w: canvas.width,
       h: canvas.height
     });
-
     ctx.drawImage(
       img,
       0,
@@ -218,22 +211,20 @@ class PixelSorter extends React.Component {
     const greenStyle = { color: "green" };
     const blueStyle = { color: "blue" };
     const imgStyle = {
-      visibility: 'hidden',
-    /*  height: "100%",
+      display: "none",
+      height: "100%",
       width: "100%",
       maxWidth: "100%",
-
+      objectFit: "contain",
       flexShrink: 0,
-      alignSelf: "center"*/
+      alignSelf: "center"
     };
     const canvStyle = {
-      objectFit: "contain",
-      /*
       height: this.state.h,
       width: this.state.w,
       maxWidth: this.state.w,
       flexShrink: 0,
-      objectFit: "contain"*/
+      objectFit: "contain"
     };
     const panelStyle = {
       maxWidth: "100vw",
@@ -246,6 +237,14 @@ class PixelSorter extends React.Component {
     const sliderStyle = {};
     return (
       <PanelContainer>
+        <Panel style={panelStyle} title="art" className="artPanel">
+          <canvas
+            style={canvStyle}
+            ref="canvas"
+            width={this.state.img_width}
+            height={this.state.img_height}
+          />
+        </Panel>
 
         {/** CONTROL PANEL **/}
         <Panel title="actions" className="controlPanel">
@@ -451,7 +450,7 @@ class PixelSorter extends React.Component {
             >
               reset
             </button>
-            <img ref="image" src='' style={imgStyle} />
+            <img ref="image" src={this.state.img_path} style={imgStyle} />
           </form>
 
           {/** SAVE IMAGE **/}
@@ -575,18 +574,6 @@ class PixelSorter extends React.Component {
           </ul>
         </Panel>
         {/** ABOUT PANEL **/}
-
-        {/** ART PANEL **/}
-        <Panel style={panelStyle} title="art" className="artPanel">
-          <canvas
-              style={canvStyle}
-              ref="canvas"
-              width={this.state.img_width}
-              height={this.state.img_height}
-          />
-        </Panel>
-        {/** ART PANEL **/}
-
       </PanelContainer>
     );
   }

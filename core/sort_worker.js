@@ -92,5 +92,5 @@ this.filter = (thresh, ...pix) => {
     if (!this.state.isFilterEnabled) return true;
     pix = new Uint8ClampedArray(new Uint32Array(pix).buffer);
     //  console.log(pix, hue);
-    return pix[0] >= thresh[0] && pix[1] >= thresh[1] && pix[2] >= thresh[2];
+    return pix[0] >= thresh[0] || pix[1] >= thresh[1] || pix[2] >= thresh[2];
 };
