@@ -2,7 +2,7 @@ import React from "react";
 import FileBrowser from "./filebrowser";
 import Panel from "./panel";
 import PanelContainer from "./panelcontainer";
-import RTerminal from "./RTerminal";
+import RTerminal from "./rterminal";
 const validFilename = require('valid-filename');
 
 let worker = new Worker("/js/sort_worker.js");

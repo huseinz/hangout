@@ -1,18 +1,15 @@
 /** This is a dummy terminal component. Simply displays text that is fed into it **/
 
 import React from 'react';
-import { Terminal } from 'xterm';
-import * as fit from 'xterm/lib/addons/fit/fit';
 import ReactDOM from "react-dom";
 
-class RTerminal extends React.Component{
-    state = {
-        text: 'sup'
-    };
+import { Terminal } from 'xterm';
+import * as fit from 'xterm/lib/addons/fit/fit';
 
+class RTerminal extends React.Component{
     constructor(props){
         super(props);
-        this.state.text = this.props.text + '\n\r' || '';
+        this.text = this.props.text + '\n\r';
         this.props.set_title(this.props.title || "Log");
         Terminal.applyAddon(fit);
         this.term = new Terminal({
@@ -30,21 +27,29 @@ class RTerminal extends React.Component{
     componentDidMount() {
         let tdiv = ReactDOM.findDOMNode(this);
         this.term.open(tdiv);
+        this.term.write(this.text);
         this.term.fit();
+        this.term.on("data", (data) => {
+            this.props.sendData_cb(data);
+        });
         console.log(`size: ${this.term.cols} columns, ${this.term.rows} rows`);
-        this.term.write(this.state.text);
-        this.term.focus();
     }
 
     writeLine = (text) => {
         this.term.write('> ' + text + "\n\r");
-    }
+    };
+    write = (text) => {
+        this.term.write(text);
+    };
 
     render() {
-        return(
-                <div className="hack dark" id="terminal"></div>
-        );
+        return(<div className="hack dark" id="terminal"></div>);
     }
 }
+
+RTerminal.defaultProps = {
+    sendData_cb: (n) => {},
+    text: "sup"
+};
 
 export default RTerminal;
