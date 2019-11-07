@@ -22,16 +22,17 @@ class FileItem extends React.Component{
           onClick={this.handleClick}
         >
           {this.props.filename}
-          {!this.state.hideChildren && this.props.children}
+          {this.state.hideChildren && this.props.children}
         </li>
     );
   }
 
 }
 
-class FileBrowser extends React.Component {
+class VidBrowser extends React.Component {
   state = {
-    ftree: null
+    ftree: null,
+    vidurl: "/mr.robot/mr.robot.s04e03.1080p.web.h264-tbs.mkv"
   };
 
   constructor(props) {
@@ -44,6 +45,7 @@ class FileBrowser extends React.Component {
     fetch("/ls/".concat(this.props.basedir), { credentials: "same-origin" }).then(response => {
       response.json().then(files => {
         this.setState({ ftree: files.map(f => this.generateTree(f)) });
+        console.log(this.state.ftree);
       });
     });
   };
@@ -54,11 +56,8 @@ class FileBrowser extends React.Component {
 
   onFileClick = e => {
     console.log(e.props.path);
-<<<<<<< HEAD
-    this.props.callback("/img" + e.props.path);
-=======
-    this.props.callback(this.props.basedir.concat(e.props.path));
->>>>>>> mr.robot
+    this.setState({vidurl: "/mr.robot".concat(e.props.path)});
+    //this.props.callback(this.props.basedir.concat(e.props.path));
   };
 
   onDirClick = e => {
@@ -92,7 +91,7 @@ class FileBrowser extends React.Component {
           body: JSON.stringify({
             b64: b64,
             filename: this.fileInput.current.files[0].name,
-            dir: 'img'
+            relpath: 'img/'
           })
         })
           .then(() => {
@@ -139,8 +138,8 @@ class FileBrowser extends React.Component {
   render() {
     //method="POST" action='/upload'
     return (
-      <div>
-        <ul className="tree clt">{this.state.ftree}</ul>
+      <div className="inner tree">
+        <ul className="clt">{this.state.ftree}</ul>
         <form
           onSubmit={this.onUpload}
           className="form-group"
@@ -156,10 +155,11 @@ class FileBrowser extends React.Component {
             upload
           </button>
         </form>
+    <video width="100%" id="vid" src={this.state.vidurl} controls></video>
       </div>
     );
   }
 }
 
 //{this.state.ftree.map((f) => this.generateTree(f))}
-export default FileBrowser;
+export default VidBrowser;

@@ -6,6 +6,7 @@ const Jimp = require("jimp");
 
 router.get("/", (err, res) => {
   res.status(200);
+	console.log('wtf');
   res.render("hello.html");
 });
 
@@ -30,13 +31,15 @@ router.get("/util", (err, res) => {
   res.render("util.html");
 });
 
-router.get("/ls_page", (err, res) => {
+router.get("/mr.robot", (err, res) => {
+	console.log('wtf');
   const filetree = require("../core/ls").filetree;
-  res.render("ls.html", { files: filetree(process.cwd()) });
+  res.render("ls.html", { files: filetree('/var/www/html/mr.robot') });
 });
-router.get("/ls", (err, res) => {
+router.get("/ls/:dir", (req, res) => {
   const filetree = require("../core/ls").filetree;
-  let cwd = process.cwd() + "/frontend/static/img";
+//  let cwd = process.cwd() + "/frontend/static/img";
+  let cwd = "/var/www/html/".concat(req.params['dir']);
   res.json(filetree(cwd, cwd));
 });
 
