@@ -29,9 +29,10 @@ class FileItem extends React.Component{
 
 }
 
-class FileBrowser extends React.Component {
+class VidBrowser extends React.Component {
   state = {
-    ftree: null
+    ftree: null,
+    vidurl: "/mr.robot/mr.robot.s04e03.1080p.web.h264-tbs.mkv"
   };
 
   constructor(props) {
@@ -55,7 +56,8 @@ class FileBrowser extends React.Component {
 
   onFileClick = e => {
     console.log(e.props.path);
-    this.props.callback(this.props.basedir.concat(e.props.path));
+    this.setState({vidurl: "/mr.robot".concat(e.props.path)});
+    //this.props.callback(this.props.basedir.concat(e.props.path));
   };
 
   onDirClick = e => {
@@ -153,10 +155,11 @@ class FileBrowser extends React.Component {
             upload
           </button>
         </form>
+    <video width="100%" id="vid" src={this.state.vidurl} controls></video>
       </div>
     );
   }
 }
 
 //{this.state.ftree.map((f) => this.generateTree(f))}
-export default FileBrowser;
+export default VidBrowser;

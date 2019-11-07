@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import Panel from "./components/panel";
-import FileBrowser from "./components/filebrowser";
+import VidBrowser from "./components/vidbrowser";
 
 ReactDOM.render(
     <Panel>
-        <FileBrowser endpoint="/pixelsorter/upload" basedir="mr.robot" 
+        <VidBrowser endpoint="/pixelsorter/upload" basedir="mr.robot" 
 	callback={(path) => window.location.href=path}/>
     </Panel>,
     document.getElementById("reactpanelbox")
