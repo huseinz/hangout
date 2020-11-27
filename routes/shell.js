@@ -1,9 +1,10 @@
 const io = require("../server").io;
 const shellsocket = io.of('/shell');
-const pty = require('pty.js');
+const pty = require('node-pty');
 
 // Instantiate shell and set up data handlers
 shellsocket.on('connection',  (socket) => {
+    console.log('this ran');
     // Spawn the shell
     const shell = pty.spawn('/bin/bash', [], {
         name: 'xterm-color',

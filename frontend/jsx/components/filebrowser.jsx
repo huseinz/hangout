@@ -54,11 +54,8 @@ class FileBrowser extends React.Component {
 
   onFileClick = e => {
     console.log(e.props.path);
-<<<<<<< HEAD
     this.props.callback("/img" + e.props.path);
-=======
     this.props.callback(this.props.basedir.concat(e.props.path));
->>>>>>> mr.robot
   };
 
   onDirClick = e => {

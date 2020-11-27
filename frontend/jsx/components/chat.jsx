@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group'
 
 class Chat extends React.Component {
   state = {
-    str_message: "pls change",
+    str_message: "",
     content: "",
     inProp: true
   };

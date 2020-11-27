@@ -1,7 +1,7 @@
 const io = require("../server").io;
 const chatsocket = io.of('/chat');
 const uuidv1 = require('uuid/v1');
-
+const mongo = require('mongodb');
 
 let tmpmessages = [{username:'zubir', message:"doinks", uuid:uuidv1()}];
 
@@ -11,6 +11,7 @@ chatsocket.on("connection", function(socket) {
     data.uuid = uuidv1();
     console.log("got message:", data);
     tmpmessages.push(data);
+    socket.broadcast.emit("postfeed", JSON.stringify(tmpmessages));
     socket.emit("postfeed", JSON.stringify(tmpmessages));
   });
   socket.emit("postfeed", JSON.stringify(tmpmessages));

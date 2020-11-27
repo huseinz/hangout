@@ -6,7 +6,7 @@ class Shell extends React.Component{
     constructor(props) {
         super(props);
         this.termRef = React.createRef();
-        this.socket = io.connect("http://localhost:7000/shell");
+        this.socket = io.connect("/shell");
     }
 
     componentDidMount() {

@@ -20,7 +20,7 @@ class RTerminal extends React.Component{
             theme: {
                 foreground: '#00ffff'
             },
-            cols: 50,
+            cols: 120,
         });
     }
 
