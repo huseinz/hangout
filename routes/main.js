@@ -6,8 +6,7 @@ const Jimp = require("jimp");
 
 router.get("/", (err, res) => {
   res.status(200);
-	console.log('wtf');
-  res.render("hello.html");
+  res.render("util.html");
 });
 
 router.post("/", (err, res) => {
