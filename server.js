@@ -19,10 +19,11 @@ MongoClient.connect('mongodb://localhost:27017/hangout', (err, database) => {
 
 app.use(cors());
 app.use(helmet());
-app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.json({limit: '100mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static('frontend/static'));
+app.use(express.static('/home/zubir/hangout/frontend/static'));
+app.use(express.static('/var/www/files/'));
 
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5000');
@@ -33,7 +34,7 @@ app.use((req, res, next) => {
 const httpserver = require('http').createServer(app);
 const io = require('socket.io').listen(httpserver);
 
-nunjucks.configure('frontend/templates', {autoescape: true, express: app});
+nunjucks.configure('/home/zubir/hangout/frontend/templates', {autoescape: true, express: app});
 app.set('view engine', 'html');
 
 app.use(require('./routes/main'));

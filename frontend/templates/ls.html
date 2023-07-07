@@ -1,15 +1,12 @@
 {% extends "layout.html" %}
 
-{% block header %}
+{% block style %}
+    {{ super() }}
+    <link rel="stylesheet" href="/css/ls.css" />
 {% endblock %}
 
 {% block title %}
     100% legal
-{% endblock %}
-
-{% block style %}
-    {{ super() }}
-    <link rel="stylesheet" href="/css/ls.css" />
 {% endblock %}
 
 {%  block content %}

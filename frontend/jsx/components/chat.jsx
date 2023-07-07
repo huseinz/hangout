@@ -86,7 +86,7 @@ class Chat extends React.Component {
           <hr></hr>
         {this.state.name ? '' : '👇 put a name 👇'}
         <form className="inputbox">
-            <label>NAME:</label>
+            <label>NAME:&nbsp;&nbsp;&nbsp;</label>
             <input
                 className="form-control form-textarea"
                 value={this.state.name}
@@ -106,14 +106,15 @@ class Chat extends React.Component {
           >
             ➡️
           </button>
-            <button
+            <div
                 className="btn btn-success btn-ghost"
                 id="sendbtn"
                 type="button"
                 onClick={this.sendMessage}
             >
             📎
-            </button>
+	    <input name="img" type="file" accept="image/*" />
+            </div>
         </form>
       </div>
     );

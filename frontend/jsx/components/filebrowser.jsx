@@ -36,7 +36,7 @@ class FileBrowser extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.set_title("FileBrowser");
+    this.props.set_title("meme stockpile");
     this.fileInput = React.createRef();
   }
 
@@ -93,6 +93,7 @@ class FileBrowser extends React.Component {
           })
         })
           .then(() => {
+            console.log("success");
             this.load();
           })
           .catch(err => {

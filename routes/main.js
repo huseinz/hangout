@@ -29,16 +29,19 @@ router.get("/hack-me", (err, res) => {
 router.get("/util", (err, res) => {
   res.render("util.html");
 });
+router.get("/files", (err, res) => {
+  res.render("files.html");
+});
 
 router.get("/mr.robot", (err, res) => {
 	console.log('wtf');
   const filetree = require("../core/ls").filetree;
-  res.render("ls.html", { files: filetree('/var/www/html/mr.robot') });
+  res.render("ls.html", { files: filetree('/var/www/files/mr.robot') });
 });
 router.get("/ls/:dir", (req, res) => {
   const filetree = require("../core/ls").filetree;
-//  let cwd = process.cwd() + "/frontend/static/img";
-  let cwd = "/var/www/html/".concat(req.params['dir']);
+//  let cwd = "/home/zubir/hangout/frontend/static/img";
+  let cwd = "/var/www/files/".concat(req.params['dir']);
   res.json(filetree(cwd, cwd));
 });
 
@@ -47,7 +50,8 @@ router.post("/pixelsorter/upload", (req, res) => {
   b64 = b64.split(";base64,").pop();
 
   const tmpfn = "/tmp/" + req.body.filename;
-  const outfn = "./frontend/static/" + req.body.dir + '/' + req.body.filename ;
+  const outfn = "/var/www/files/ps/" + req.body.filename ;
+  //let outfn = "/home/zubir/hangout/frontend/static/img";
 
   fs.writeFile(tmpfn, b64, { encoding: "base64" }, function(err) {
     console.log("File created");
@@ -57,7 +61,7 @@ router.post("/pixelsorter/upload", (req, res) => {
   Jimp.read(tmpfn)
     .then(lenna => {
       return lenna
-        .scaleToFit(800, 600) // resize
+        .scaleToFit(640, 480) // resize
         .quality(99) // set JPEG quality
         .write(outfn); // save
     })

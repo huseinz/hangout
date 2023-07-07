@@ -143,7 +143,7 @@ class PixelSorter extends React.Component {
     e.preventDefault();
     console.log(this.refs.save.value);
 
-    let dir = 'img/saved';
+    let dir = 'ps';
 
     if(!validFilename(this.refs.save.value.trim())){
         console.log('fix ur filename');
@@ -163,7 +163,7 @@ class PixelSorter extends React.Component {
       body: JSON.stringify({
         b64: b64,
         filename: fn,
-        dir: "img/saved"
+        dir: "ps"
       })
     })
         .then(() => {
@@ -540,7 +540,7 @@ class PixelSorter extends React.Component {
 
         {/** FILEBROWSER PANEL **/}
         <Panel>
-          <FileBrowser endpoint="/pixelsorter/upload" callback={this.update_img_path} />
+          <FileBrowser endpoint="/pixelsorter/upload" callback={this.update_img_path} basedir='ps' />
         </Panel>
         {/** FILEBROWSER PANEL **/}
 
