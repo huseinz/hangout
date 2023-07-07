@@ -1,21 +1,32 @@
 import React from "react";
+import { CSSTransition } from 'react-transition-group'
 
 class Chat extends React.Component {
   state = {
-    str_message: "pls change",
-    content: ""
+    str_message: "",
+    name: localStorage.getItem( 'name' ) || '',
+    content: "",
+    inProp: true
   };
 
   handleInputChange(e) {
     this.setState({ str_message: e.target.value });
   }
 
-  sendMessage() {
+  handleNameChange(e) {
+    localStorage.setItem('name', e.target.value);
+    this.setState({ name: localStorage.getItem('name') });
+  }
+
+  sendMessage(e) {
+    e.preventDefault();
     if (this.state.str_message.length === 0) return;
+    if (this.state.name.length === 0) return;
 
     let post = {
-      username: "notzubir",
-      message: this.state.str_message
+      username: this.state.name,
+      message: this.state.str_message,
+      timestamp: Date.now()
     };
     this.chatsocket.emit("userpost", post);
     this.setState({ str_message: "" });
@@ -25,9 +36,25 @@ class Chat extends React.Component {
     console.log("refreshing");
     posts = JSON.parse(posts);
     let buffer = [];
-    for (let i = posts.length - 1; i >= 0; i--) {
-      buffer.push(<h1> {posts[i].username} </h1>);
-      buffer.push(<p>{posts[i].message}</p>);
+    const transition = {
+    //  animation: 'slide-right 0.4s ease'
+    };
+
+    for (let i = 0; i < posts.length; i++) {
+      buffer.push(
+
+          <CSSTransition
+              in={this.state.inProp}
+              timeout={500}
+              classNames='my-node'
+              key={posts[i].uuid}
+              appear
+          >
+            <div className="chatelem">
+                    <b> {posts[i].username}: </b>
+                    {posts[i].message}
+            </div>
+          </CSSTransition>);
     }
     this.setState({ content: buffer });
   }
@@ -37,38 +64,58 @@ class Chat extends React.Component {
     this.props.set_title("Chat");
     this.chatsocket = io.connect("/chat");
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.refreshPosts = this.refreshPosts.bind(this);
     this.chatsocket.on("postfeed", this.refreshPosts);
   }
 
   render() {
+
     return (
-      <div>
-        <div id="postbox">{this.state.content}</div>
+      <div className="chat">
+        <div id="postbox">
+          {this.state.content}
+        </div>
         <input
           className="warning"
           type="hidden"
           value={this.state.str_message}
           onChange={this.handleInputChange}
         />
-        <form className="form">
-          <fieldset className="form-group form-textarea">
+          <hr></hr>
+        {this.state.name ? '' : '👇 put a name 👇'}
+        <form className="inputbox">
+            <label>NAME:&nbsp;&nbsp;&nbsp;</label>
+            <input
+                className="form-control form-textarea"
+                value={this.state.name}
+                onChange={this.handleNameChange}
+            ></input><br></br>
             <label>MESSAGE:</label>
             <textarea
-              className="form-control"
+              className="form-control form-textarea"
               value={this.state.str_message}
               onChange={this.handleInputChange}
             ></textarea>
-          </fieldset>
+          <button
+              className="btn btn-success btn-ghost"
+              id="sendbtn"
+              type="button"
+              onClick={this.sendMessage}
+          >
+            ➡️
+          </button>
+            <div
+                className="btn btn-success btn-ghost"
+                id="sendbtn"
+                type="button"
+                onClick={this.sendMessage}
+            >
+            📎
+	    <input name="img" type="file" accept="image/*" />
+            </div>
         </form>
-        <button
-          className="btn btn-default btn-ghost"
-          id="sendbtn"
-          onClick={this.sendMessage}
-        >
-          SEND
-        </button>
       </div>
     );
   }

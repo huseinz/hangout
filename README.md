@@ -1,10 +1,5 @@
-## zubirs hangout
+# zubirs hangout
 
-moved this shit over to node
+npm run build
 
-fuck flask
-
-`npm install`
-`npm run build`
-`node server.js`
-
+./forever.sh

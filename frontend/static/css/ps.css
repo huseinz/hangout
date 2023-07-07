@@ -38,7 +38,13 @@
 .aboutPanel .inner{
   display: flex;
   flex-direction: column;
+  flex-shrink: 6;
+}
 
+.aboutPanel .inner ul.clt li {
+  max-width: 400px;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 b {

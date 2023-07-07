@@ -2,6 +2,7 @@ import React from "react";
 import FileBrowser from "./filebrowser";
 import Panel from "./panel";
 import PanelContainer from "./panelcontainer";
+import RTerminal from "./rterminal";
 const validFilename = require('valid-filename');
 
 let worker = new Worker("/js/sort_worker.js");
@@ -31,7 +32,7 @@ class PixelSorter extends React.Component {
     isContiguous: true,
     isReverse: false,
     isFilterEnabled: true,
-    isHue: false,
+    isHue: true,
     isAutoUpdate: false,
     isWorkerRunning: false,
     mouseDown: false,
@@ -43,17 +44,22 @@ class PixelSorter extends React.Component {
     super(props);
     this.props.set_title("PixelSorter つ ◕_◕ ༽つ");
     this.state.img_path = this.props.defaultimg;
-    this.bg_running = false;
+    this.termRef = React.createRef();
 
     worker.onmessage = (e) => {
       this.setState({imgdata: new ImageData(e.data.rawimgdata, this.state.w, this.state.h), isWorkerRunning: false});
       this.state.ctx.putImageData(this.state.imgdata, 0, 0);
+      this.writeLog("finished: " + e.data.totalCompares + ' total comparisons')
     };
   }
 
   componentDidMount() {
     const img = this.refs.image;
     img.onload = this.load_image;
+  }
+
+  writeLog = (text) => {
+    this.termRef.current.writeLine(text);
   }
 
   reset = () => {
@@ -97,7 +103,6 @@ class PixelSorter extends React.Component {
 
   update_img_path = path => {
     this.setState({ img_loaded: false, img_path: encodeURI(path) });
-    this.load_image();
   };
 
   load_image = () => {
@@ -131,11 +136,14 @@ class PixelSorter extends React.Component {
     this.setState({ imgdata: imgdata }, () => {
       ctx.putImageData(imgdata, 0, 0);
     });
+    this.writeLog("loaded " + '\'' + this.state.img_path + '\' ' + img.width + 'x' + img.height);
   };
 
   save_image = (e) => {
     e.preventDefault();
     console.log(this.refs.save.value);
+
+    let dir = 'ps';
 
     if(!validFilename(this.refs.save.value.trim())){
         console.log('fix ur filename');
@@ -155,7 +163,7 @@ class PixelSorter extends React.Component {
       body: JSON.stringify({
         b64: b64,
         filename: fn,
-        dir: 'img/saved'
+        dir: "ps"
       })
     })
         .then(() => {
@@ -165,12 +173,15 @@ class PixelSorter extends React.Component {
           console.log(err.text());
         });
 
+    this.writeLog("wrote your image to " + '\'/' + dir + '/' + fn + '\'');
   };
 
   do_sort = e => {
     if (e) e.preventDefault();
     if (!this.state.img_loaded) return;
     let img = this.state.isPersistent ? this.state.imgdata : new ImageData(this.state.orig_imgdata.data.slice(), this.state.w, this.state.h);
+
+    this.termRef.current.writeLine("sorting...");
 
     if(!this.state.isWorkerRunning) {
       this.setState({isWorkerRunning: true});
@@ -529,9 +540,15 @@ class PixelSorter extends React.Component {
 
         {/** FILEBROWSER PANEL **/}
         <Panel>
-          <FileBrowser endpoint="/pixelsorter/upload" callback={this.update_img_path} />
+          <FileBrowser endpoint="/pixelsorter/upload" callback={this.update_img_path} basedir='ps' />
         </Panel>
         {/** FILEBROWSER PANEL **/}
+
+        {/** TERMINAL PANEL **/}
+        <Panel>
+          <RTerminal ref={this.termRef} text="welcome :)"/>
+        </Panel>
+        {/** TERMINAL PANEL **/}
 
         {/** ABOUT PANEL **/}
         <Panel title="About" className='aboutPanel'>
@@ -541,7 +558,7 @@ class PixelSorter extends React.Component {
           </p>
           <ul className="clt">
             <li>
-              <b>Hue</b>: adjusts hue of pixels chosen for sorting
+              <b>Hue</b>: adjusts hue of pixels after sorting
             </li>
             <li>
               <b>Threshold</b>: determines which pixels are sorted
@@ -551,7 +568,7 @@ class PixelSorter extends React.Component {
             </li>
             <li>
               <b>Contiguous</b>: will only sort contiguous chunks of pixels that
-              are within the threshold. <br/> Default behavior sorts from the first
+              are within the threshold. Default behavior sorts from the first
               and last pixel within a row that are within the threshold
             </li>
           </ul>

@@ -5,13 +5,25 @@ const app = express();
 const port = 5000;
 const helmet = require('helmet');
 const nunjucks = require('nunjucks');
+const MongoClient = require('mongodb').MongoClient;
+
+
+let db = undefined;
+let userdb = undefined;
+MongoClient.connect('mongodb://localhost:27017/hangout', (err, database) => {
+	if (err) console.log(err);
+	db = database.db();
+	userdb = db.collection('users');
+	db.collection('users').find({}).toArray((err, items) => {console.log(items)});
+});
 
 app.use(cors());
 app.use(helmet());
-app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.json({limit: '100mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static('frontend/static'));
+app.use(express.static('/home/zubir/hangout/frontend/static'));
+app.use(express.static('/var/www/files/'));
 
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5000');
@@ -19,10 +31,10 @@ app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept');
 	next();
 });
-const server = require('http').createServer(app);
-const io = require('socket.io').listen(server);
+const httpserver = require('http').createServer(app);
+const io = require('socket.io').listen(httpserver);
 
-nunjucks.configure('frontend/templates', {autoescape: true, express: app});
+nunjucks.configure('/home/zubir/hangout/frontend/templates', {autoescape: true, express: app});
 app.set('view engine', 'html');
 
 app.use(require('./routes/main'));
@@ -32,7 +44,7 @@ app.options('*', function(req, res) {
 	res.send(200);
 });
 
-server.listen(port, (err) => {
+httpserver.listen(port, (err) => {
 	if (err) {
 		throw err;
 	}
@@ -41,8 +53,12 @@ server.listen(port, (err) => {
 });
 
 
-module.exports.server = server;
+module.exports.app = app;
+module.exports.httpserver = httpserver;
 module.exports.io = io;
+module.exports.db = db;
+module.exports.userdb = userdb;
 
 //somehow get sockets.js to be loaded
 require('./routes/sockets');
+require('./routes/shell');

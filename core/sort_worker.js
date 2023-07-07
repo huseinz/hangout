@@ -5,11 +5,20 @@ this.queue = [];
 onmessage = (e) => {
 
     this.state = e.data;
+    this.totalCompares = 0;
 
     this.img = new img_utils.Image(this.state.rawimgdata, this.state.w, this.state.h);
-    this.do_sort();
 
-    postMessage({message: 'success', rawimgdata: this.img.getImageData().data}, [this.img.getImageData().data.buffer]);
+    const starttime = new Date().getTime();
+    this.do_sort();
+    const totalTime = new Date().getTime() - starttime;
+
+    postMessage({  message: 'success',
+                            rawimgdata: this.img.getImageData().data,
+                            totalCompares: this.totalCompares,
+                            totalTime: totalTime
+                         },
+                [this.img.getImageData().data.buffer]);
 };
 
 
@@ -72,9 +81,9 @@ this.adj_hue = (row, hue) => {
 
 this.compare = (...args) => {
     const pix = new Uint8ClampedArray(new Uint32Array(args).buffer);
-    // console.log(pix);
     const a = pix[0] + pix[1] + pix[2];
     const b = pix[4] + pix[5] + pix[6];
+    this.totalCompares++;
     if (this.state.isReverse) return a - b;
     return b - a;
 };
@@ -83,5 +92,5 @@ this.filter = (thresh, ...pix) => {
     if (!this.state.isFilterEnabled) return true;
     pix = new Uint8ClampedArray(new Uint32Array(pix).buffer);
     //  console.log(pix, hue);
-    return pix[0] >= thresh[0] && pix[1] >= thresh[1] && pix[2] >= thresh[2];
+    return pix[0] >= thresh[0] || pix[1] >= thresh[1] || pix[2] >= thresh[2];
 };
